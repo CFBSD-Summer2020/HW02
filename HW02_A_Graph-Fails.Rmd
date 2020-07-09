@@ -33,7 +33,7 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = "city", y = "hwy", color = "blue")) + 
   geom_point()
 
 ```
@@ -42,7 +42,7 @@ mpg %>%
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue")) 
 
 ```
 
