@@ -29,20 +29,29 @@ library("magrittr") #so I can do some piping
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
+*The error being thrown out is:*
+>\#\# Error: `mapping` must be created by `aes()`
+>\#\# Did you use %>% instead of +?
+
+*The problem was that we are using %>% instead of + (very self-explanatory) inside the `ggplot()` function.*
+
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
-mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+mpg %>%
+ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
+*Because blue here is being used inside de `aes()` function, therefore, R is interpreting as an aesthetic of the graph (which is why appears in the legend). Instead, the color "blue" should be specified outside that function.*
+
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -51,11 +60,16 @@ ggplot(data = mpg) +
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
+*<alpha> specifies the transparency of the color by a proportion, so it can only take values between 0 and 1. By putting 2 you are not doing anything really, because it can't be 200% solid color. If you want for the points to be bigger, you can increase the size. I put <size = 5> just to exaggerate my point (got it? :wink:)*
+
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+
+
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 5) + 
   theme(legend.direction = "horizontal") + 
   theme(legend.position = c(5, 40))
 
@@ -74,11 +88,13 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
+*Color argument only affects the outline of the figure, you need the fill argument to add color to the entire box.*
+
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
