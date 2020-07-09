@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Ricardo Muñiz Trejo"
 output: github_document
 ---
 
@@ -36,6 +36,11 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+
+ggplot(diamonds, aes(cut, fill = clarity))+
+  geom_bar(position = "dodge") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds")
+
 ```
 
 
@@ -48,6 +53,10 @@ Using the diamonds dataset, make this graph:
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species))+
+  geom_point(position = "dodge")
+
 ```
 
 Using the iris dataset, make this graph:
