@@ -62,24 +62,30 @@ _To increase point size, add "size = <size wanted>" within the point geometry fu
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 
+_To move the legend, add the specified points as if the plot x and y axes maximums were 1._
+_To remove the legend title, set legend.position = a blank element._
+_To remove the plot legend completely, set legend.position within theme() equal to "none"._
 
 ```{r}
 mpg %>% 
 ggplot() + 
   geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 1, size = 2.5) +
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40)) +
+  theme(legend.direction =  "horizontal") +
+  theme(legend.position = c(.66, .8)) +
   theme(legend.title = element_blank())
+  
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+_The layer that divided up the colors by drv should have been placed in the geom-point(), because placing it in ggplot places it on a more "upstream" layer upon which geom-smooth() acted._
+
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -90,14 +96,14 @@ _Used "fill" to color the inside of the boxes as well. Removed the legend becaus
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
-
+_Added a margin with whitespace at the top to avoid overlap._
 
 ```{r}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill = manufacturer)) + 
   geom_boxplot() + 
   theme(legend.position = "none") +
-  theme(axis.text.x = element_text(angle = 45)) +
-  theme(axis.)
+  theme(axis.text.x = element_text(angle = 45, margin = margin(13, 0, 0, 0, "pt")))
+  
 ```
 
 
