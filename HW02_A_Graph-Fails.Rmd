@@ -1,6 +1,6 @@
 ---
-title: "What went wrong?"
-author: "Robert Gruener"
+title: "What Went Wrong?"
+author: "Olivia Pura"
 date due: "7/13/2020"
 output: github_document
 ---
@@ -25,7 +25,7 @@ library("magrittr") #so I can do some piping
 ```
 
 
-### Graph Fail 1
+## Graph Fail 1
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
@@ -38,30 +38,59 @@ mpg %>%
 
 ```
 
-### Graph Fail 2
+**The code _pipes_ the first layer of the graph into the `geom_point()` layer, rather than adding the `geom_point()` layer to the graph with a `+`.**
+
+### Corrected Graph 1
+
+
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point()
+
+```
+
+## Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 ```
 
+**To set the color of a `geom_point()` layer, the `color` attribute must be placed _outside_ of the `aes()`. Otherwise, it suggests that the `color` attribute is converying information about a variable.**
 
-
-### Graph Fail 3
-Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
-
-Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+### Corrected Graph 2
 ```{r}
-mpg %>% 
-ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
-### Graph Fail 4
+## Graph Fail 3
+Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
+
+**Setting the `alpha` to 2 causes an error, and R is unable to generate the graph. `alpha` determines the opacity of the point. If you wanted the points slightly bigger, you can set the `size` aesthetic as an argument in the `geom_point()` function.**
+
+Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+**To move the legend, you would use `theme(legend.position = c(x, y))`, where `x` and `y` are values between 0 and 1. (0,0) corresponds to the bottom-left corner of the graph, while (1,1) corresponds to the top right corner. To remove the legend title, you add a layer containing `theme(legend.title = element_blank())`. Finally, to remove the legend completely, you can add a layer containing `theme(legend.position = "none")`.**
+
+### Corrected Graph 3
+
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) +
+  theme(legend.direction = "horizontal") +
+  theme(legend.position = c(0.65, 0.84)) +
+  theme(legend.title = element_blank())
+
+```
+
+## Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
 ```{r}
@@ -71,7 +100,19 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
-### Graph Fail 5
+**Placing the mappings in the `ggplot()` function applies them to every layer in that graph. My placing the `color = drv` mapping in `geom_point()`rather than in `ggplot()`, it tells R that the `geom_smooth()` layer should only be mapping the `x` and `y` aesthetics, as coded in the `ggplot()` function.**
+
+### Corrected Graph 4
+
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y=hwy)) + 
+  geom_point(mapping = aes(color = drv)) + 
+  geom_smooth(se = F, color = "black") #se = F makes it so it won't show the error in the line of fit
+```
+
+
+## Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
@@ -82,6 +123,13 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
+ 
+**`color` refers to the outline of the boxplot, while `fill` refers to the color of the box itself. You can add `vjust = 0.5` as an argument to the `element_text()` function to shift the x-axis labels down.** 
 
+### Corrected Graph 5
 
-
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
