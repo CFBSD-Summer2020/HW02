@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Olivia Pura"
 output: github_document
 ---
 
@@ -20,7 +20,7 @@ theme_set(theme_bw()) #I'll give you this one, you can set the theme individuall
 #theme_bw() is best theme (IMO)
 
 #for graph 3:
-library("ggrepel")
+#library("ggrepel")
 
 
 ```
@@ -34,25 +34,24 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 
 ### Graph 1
 ```{r, echo = T, include = TRUE}
-data("diamonds")
-#hint think about the *position* the bars are in...
-```
 
-
-Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
-
-
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  labs(x = "Diamond Cut", 
+       y = "Number of Diamonds", 
+       title = "My Diamond Collection", 
+       subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") 
 ```
 
 ### Graph 2
 ```{r, echo = T, include = TRUE}
-data("iris")
-```
-
-Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
-
+ggplot(data = iris, mapping = aes(x = Sepal.Length, y = Petal.Length)) + 
+  geom_point(mapping = aes(color = Species, shape = Species)) +
+  facet_wrap(~Species, scales = "free_y") +
+  geom_smooth(method = "lm", se = FALSE, color = "black")
+  labs(x = "Sepal.Length", 
+       y = "Petal.Length") 
 ```
 
 
@@ -69,7 +68,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
-
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  xlim(1, 8.5) +
+  ggtitle("Corvettes are a bit of an outlier") +
+  geom_point(data = corvette, mapping = aes(x = displ, y = hwy), color = "blue") +
+  geom_text_repel(data = corvette, mapping = aes(x = displ, y = hwy, label = paste("Corvette", corvette$year, sep = ", ")), nudge_x = .4, nudge_y = .3)
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -91,7 +95,13 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(data = mpg, mapping = aes(x = class, y = cty)) + 
+  geom_point(mapping = aes(color = class)) +
+  geom_boxplot(outlier.alpha = 0, alpha = 0) +
+  coord_flip() +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "City MPG",
+       y = "Car Class")
 ```
 
 
