@@ -30,15 +30,13 @@ is for. :smile:
 ### Graph 1
 
 ``` r
-ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
-  geom_bar(position = "dodge") +
-  geom_rect(aes(xmin= 4.5, ymin= 0, xmax= 5.5, ymax= 5000), alpha = 0.01, fill = "gray85") +
-  geom_text(x = 4, y = 4500, label = "My Best Diamonds, \n of course") +
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") +
+  theme(plot.title = element_text(hjust = 0.5)) +
   labs(x = "Diamond Cut", 
        y = "Number of Diamonds", 
        title = "My Diamond Collection", 
-       subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
-  theme(plot.title = element_text(hjust = 0.5))
+       subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") 
 ```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
@@ -46,10 +44,27 @@ ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) +
 ### Graph 2
 
 ``` r
-data("iris")
+ggplot(data = iris, mapping = aes(x = Sepal.Length, y = Petal.Length)) + 
+  geom_point(mapping = aes(color = Species, shape = Species)) +
+  facet_wrap(~Species, scales = "free_y") +
+  geom_smooth(method = "lm", se = FALSE, color = "black")
 ```
 
-Using the iris dataset, make this graph:
+![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+``` r
+  labs(x = "Sepal.Length", 
+       y = "Petal.Length") 
+```
+
+    ## $x
+    ## [1] "Sepal.Length"
+    ## 
+    ## $y
+    ## [1] "Petal.Length"
+    ## 
+    ## attr(,"class")
+    ## [1] "labels"
 
 ### Graph 3
 
@@ -68,7 +83,10 @@ require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
-Now using the mpg dataset and the corvette dataset, make this graph:
+Now using the mpg dataset and the corvette dataset, make this
+graph:
+
+![](HW02_B_Mimic_starter_files/figure-gfm/graoh%203%20code-1.png)<!-- -->
 
 There is a trick to getting the model and year to print off together.
 `paste()` is a useful function for this, also pasting together parts of
@@ -89,4 +107,7 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 The above graph lets you see some colobrlind friendly palettes. For the
 graph below, I used Set2.
 
-Now using the above mpg dataset, make this graph
+Now using the above mpg dataset, make this
+graph
+
+![](HW02_B_Mimic_starter_files/figure-gfm/graph%204%20code-1.png)<!-- -->

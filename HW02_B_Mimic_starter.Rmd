@@ -41,7 +41,12 @@ ggplot(data = diamonds) +
   labs(x = "Diamond Cut", 
        y = "Number of Diamonds", 
        title = "My Diamond Collection", 
-       subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") 
+       subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000,
+           fill = "gray30", alpha  = 0.5,
+           label = "My Best Diamonds,\nof Course") +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\nof Course") 
+
 ```
 
 ### Graph 2
@@ -70,10 +75,12 @@ Now using the mpg dataset and the corvette dataset, make this graph:
 ```{r graoh 3 code}
 ggplot() + 
   geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) +
-  xlim(1, 8.5) +
+  scale_x_continuous(limits = c(1, 8), breaks = seq(1, 9, 1)) +
   ggtitle("Corvettes are a bit of an outlier") +
   geom_point(data = corvette, mapping = aes(x = displ, y = hwy), color = "blue") +
-  geom_text_repel(data = corvette, mapping = aes(x = displ, y = hwy, label = paste("Corvette", corvette$year, sep = ", ")), nudge_x = .4, nudge_y = .3)
+  geom_text_repel(data = corvette, 
+                  mapping = aes(x = displ, y = hwy, 
+                  label = paste("Corvette", corvette$year, sep = ", ")), nudge_x = .4, nudge_y = .3)
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -96,12 +103,14 @@ Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
 ggplot(data = mpg, mapping = aes(x = class, y = cty)) + 
-  geom_point(mapping = aes(color = class)) +
+  scale_fill_brewer(palette="Set2") +
+  geom_point(mapping = aes(color = class), position = position_jitter(height = 0)) +
+  scale_color_brewer(palette = "Set2") +
   geom_boxplot(outlier.alpha = 0, alpha = 0) +
   coord_flip() +
   labs(title = "Horizontal BoxPlot of City MPG and Car Class",
-       x = "City MPG",
-       y = "Car Class")
+       y = "City MPG",
+       xq = "Car Class")
 ```
 
 
