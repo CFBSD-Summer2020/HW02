@@ -37,6 +37,11 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 data("diamonds")
 #hint think about the *position* the bars are in...
 
+```
+
+
+Using the diamonds dataset, make this graph:
+```{r graph1 code, echo=TRUE}
 ggplot(diamonds, aes(cut, fill = clarity)) +
   geom_bar(position = "dodge") +
   #To add labels to title, subtitle, x- and y-axes.
@@ -54,17 +59,15 @@ ggplot(diamonds, aes(cut, fill = clarity)) +
 
 ```
 
-
-Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
-
-
-```
-
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
 
+
+```
+
+Using the iris dataset, make this graph:
+```{r graph 2 code, echo=TRUE}
 #To reorder the panels within the graph
 iris$Species2 <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
 
@@ -78,11 +81,6 @@ ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species))+
 
 ```
 
-Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
-
-```
-
 
 ### Graph 3
 You'll need the information in this first box to create the graph
@@ -93,6 +91,11 @@ corvette <- mpg[mpg$model == "corvette",]
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 
+```
+
+Now using the mpg dataset and the corvette dataset, make this graph:
+
+```{r graph 3 code, echo = TRUE}
 #Define the label you want to add with paste() as an aesthetic
 ggplot(mpg, aes(displ,hwy, label = paste("Corvette", year, sep = ","))) +
   #To label use the ggrepel package
@@ -105,12 +108,8 @@ ggplot(mpg, aes(displ,hwy, label = paste("Corvette", year, sep = ","))) +
   #To only color the points for Corvette models
   geom_point(color = ifelse(mpg$model == "corvette", "blue", "black")) +
   labs(title = "Corvettes are a bit of an outlier") +
-  scale_x_continuous(limits = c(1,8), breaks = seq(1:8))
-```
+  scale_x_continuous(limits = c(1,7.9), breaks = seq(1:8))
 
-Now using the mpg dataset and the corvette dataset, make this graph:
-
-```{r graoh 3 code}
 
 ```
 
@@ -124,6 +123,7 @@ data(mpg)
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
 ```
 
 The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
@@ -132,7 +132,19 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
+```{r graph 4 code, echo = TRUE}
+ggplot(mpg, aes(cty, class)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(aes(color = class), width = 0, height = 0.4) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class",
+       y = "City MPG") +
+   #Colorblind friendly palette "Set2"
+  scale_color_brewer(palette = "Set2") +
+  #For some reason I cannot make the following to work...
+  heme_update(axis.line.x.top = element_blank(),
+               axis.line.y.right = element_blank(),
+               panel.background = element_blank())
 
 ```
 
