@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Sherzod Tokamov"
 output: github_document
 ---
 
@@ -10,17 +10,17 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ```{r load libraries, echo = TRUE, include=TRUE}
-library("ggplot2")
-library("magrittr") #so I can do some piping
-data("diamonds")
-data("mpg")
-data("iris")
+library(ggplot2)
+library(magrittr) #so I can do some piping
+data(diamonds)
+data(mpg)
+data(iris)
 theme_set(theme_bw()) #I'll give you this one, you can set the theme individually for graphs
 #or you can set the theme for all the graphs using theme_set()
 #theme_bw() is best theme (IMO)
 
 #for graph 3:
-library("ggrepel")
+library(ggrepel)
 
 
 ```
@@ -35,6 +35,13 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
+#Create a bar graph using geom_bar and specify position="dodge" to have bars side by side. Then use labs function to add labels to the graph.
+ggplot(diamonds, aes(x=cut, fill = clarity)) +
+    geom_bar(stat="count", position = "dodge") +
+    annotate("rect", xmin = 4.5, xmax= 5.5, ymin=0, ymax = 5000, alpha=0.2) +
+    annotate("text", label = "My Best Diamonds,\nof course", x = 4, y = 4500)+
+    labs(x="Diamond Cut", y = "Number of Diamonds", title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection \nby type of cut quality and clarity of diamond") +
+    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 #hint think about the *position* the bars are in...
 ```
 
