@@ -59,8 +59,11 @@ data("iris")
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
 
+ggplot(iris, mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species, shape =Species)) + 
+  geom_point() + 
+  geom_smooth(se = F, method ="lm",color = "black")  +
+  facet_wrap(~Species, scales="free_y",)
 ```
-
 
 ### Graph 3
 You'll need the information in this first box to create the graph
@@ -75,7 +78,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
-
+ggplot(mpg,mapping = aes(x = displ, y = hwy)) + 
+  geom_point() +
+  xlim(1,8)+
+  ggtitle(label="Corvettes are a bit of an outlier") +
+  geom_point(data=corvette,color="blue") +
+  geom_text_repel(data= corvette, aes(label= paste("Corvette,",year)))
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
