@@ -37,13 +37,15 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 data("diamonds")
 #hint think about the *position* the bars are in...
 
-ggplot(diamonds, aes(cut, fill = clarity))+
+ggplot(diamonds, aes(cut, fill = clarity)) +
   geom_bar(position = "dodge") +
+  #To add labels to title, subtitle, x- and y-axes.
   labs(title = "My Diamond Collection", 
        subtitle = "Boxplot representing the number of diamonds in my  diamond collection by \ntype of cut quality and clarity of diamond",
        x = "Diamond Cut", 
        y = "Number of Diamonds") +
   theme(plot.title = element_text(hjust = 0.5)) +
+  #annotate() to add the text and the rectangle
   annotate("text", x = 4, y = 4500, 
            label = "My Best Diamonds,\nof course") +
   annotate("rect", xmin = 4.5, xmax = 5.5, 
@@ -63,12 +65,16 @@ Using the diamonds dataset, make this graph:
 ```{r, echo = T, include = TRUE}
 data("iris")
 
-
+#To reorder the panels within the graph
+iris$Species2 <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
 
 ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species))+
   geom_point() +
   geom_smooth(se = F, method = lm, color = "black") +
-  facet_wrap(vars(Species), scales = "free")
+  #To put species in different panels
+  facet_wrap(vars(Species2), scales = "free") +
+  #To resize x-axis per species
+  scale_x_continuous(limits = c(4.25,8))
 
 ```
 
