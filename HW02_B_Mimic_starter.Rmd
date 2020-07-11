@@ -126,7 +126,7 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 
 ```
 
-The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
+The above graph lets you see some colorblind friendly palettes. For the graph below, I used Set2.
 
 
 
@@ -140,11 +140,7 @@ ggplot(mpg, aes(cty, class)) +
        x = "Car Class",
        y = "City MPG") +
    #Colorblind friendly palette "Set2"
-  scale_color_brewer(palette = "Set2") +
-  #For some reason I cannot make the following to work...
-  heme_update(axis.line.x.top = element_blank(),
-               axis.line.y.right = element_blank(),
-               panel.background = element_blank())
+  scale_color_brewer(palette = "Set2")
 
 ```
 
