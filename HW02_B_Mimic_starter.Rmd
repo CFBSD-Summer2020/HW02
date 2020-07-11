@@ -44,8 +44,8 @@ Using the diamonds dataset, make this graph:
 
 ggplot(diamonds, aes(cut)) + 
   geom_bar(aes(fill=clarity), position = "dodge") +
-  xlab("Number of Diamonds") +
-  ylab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  xlab("Diamond Cut") +
   ggtitle(label="My Diamond Collection",subtitle="Boxplot representing the number of diamonds in my diamond collection \n by type of cut quality and clarity of diamond") + theme(plot.title = element_text(hjust = 0.5, size = 14)) +
   annotate("text", x=4, y=4500, label= "My Best Diamonds, \n of course")
 
