@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Laura Cespedes Arias"
 output: github_document
 ---
 
@@ -85,7 +85,6 @@ ggplot(mpg,mapping = aes(x = displ, y = hwy)) +
   geom_point(data=corvette,color="blue") +
   geom_text_repel(data= corvette, aes(label= paste("Corvette,",year)))
 ```
-
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
 
 
@@ -100,12 +99,13 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 
 The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
 
-
-
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(mpg,mapping = aes(x = cty, y = class)) + 
+  geom_jitter(shape=16, position=position_jitter(0.2),aes(color=class))+
+  geom_boxplot(outlier.shape=NA,fill=NA) +
+  scale_color_brewer(palette = "Set2")
 ```
 
 
