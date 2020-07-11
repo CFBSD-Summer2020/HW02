@@ -109,6 +109,12 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ggplot(data = mpg, mapping = aes(cty, class)) +
+  geom_jitter(mapping = aes(color = class), size = 1, width = 0) +
+  scale_color_brewer(palette = "Set2") +
+  geom_boxplot(alpha = 0) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.background = element_blank(), panel.border = element_blank(), axis.line = element_line(color = "black"))
 
 ```
 
