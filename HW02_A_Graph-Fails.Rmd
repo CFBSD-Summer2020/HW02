@@ -30,10 +30,11 @@ library("magrittr") #so I can do some piping
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
 *The error being thrown out is:*
->\#\# Error: `mapping` must be created by `aes()`
->\#\# Did you use %>% instead of +?
 
-*The problem was that we are using* %>% *instead of* + *(very self-explanatory) inside the* `ggplot()` *function.*
+\#\# Error: `mapping` must be created by `aes()`
+\#\# Did you use %>% instead of +?
+
+*The problem in this graph was that we were using* %>% *instead of* + *(very self-explanatory) inside the* `ggplot()` *function.*
 
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
@@ -47,7 +48,7 @@ ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 
-*Because blue here is being used inside the* `aes()` *function, therefore, R is interpreting as an aesthetic of the graph (which is why appears in the legend). Instead, the color "blue" should be specified outside that function.*
+*Because blue here is being used inside the* `aes()` *function, R interpreted it as a variable of the graph (which is why appears inside the legend), but "blue" is not a vector within mpg, so it cannot be shown in the plot. Instead, the* `color = "blue"` *argument should be specified outside*  `aes`*.*
 
 ```{r}
 ggplot(data = mpg) + 
@@ -60,15 +61,15 @@ ggplot(data = mpg) +
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
-`alpha` *specifies the transparency of the color by a proportion, so it can only take values between 0 and 1. By putting 2 you are not doing anything really, because it can't be 200% solid color. If you want for the points to be bigger, you can increase the size. I put <size = 5> just to exaggerate my point (got it?* :wink:*)*
+`alpha` *specifies the transparency of the color by a proportion, and it can only take values between 0 and 1. By putting 2 you are not doing anything really, because something can't be 200% solid color. If you want bigger points, you can increase their size. I enter* `size = 5` *just to exaggerate my point (got it?* :wink:*).*
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 
-*It is important to remember that in a numeric vector to specify the position of the legend* `c(x,y)`*, the values must be between 0-1, being* c(0,0) *bottom left corner, and* c(1,1) *top right corner. c(5,40) does not lead to any position within the graph*
+*It is important to remember that in a numeric vector to specify the position of the legend* `c(x,y)`*, the values must be between 0-1, being* c(0,0) *the bottom left corner, and* c(1,1) *the top right corner. *c(5,40) *does not lead to any position within the graph*
 
 *To remove the legend title, one must indicate the argument* `legend.title =` *and call* `element_blank()`*.*
 
-*Lastly, to remove the legend altogether, you should write* `"none"` *in* `legend.position`*.*
+*Lastly, to remove the legend completely, you should write* `legend.position = "none"`*.*
 
 
 ```{r}
@@ -86,19 +87,21 @@ ggplot() +
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
-*The problem here was that we were using drv as a color aesthetic, so ggplot was interpreting every color as a different set of data, not just one, because of that, several smooth lines were drawn. To correct it, you must quit drv from the* `aes()` *function.* 
+*The problem here was that we were using drv as a color aesthetic, so ggplot was interpreting every color as a different set of data, not just one, and because of that several smooth lines were drawn. To correct it, you must quit drv from the* `aes()` *function.*
+
+*Now, if you want to keep the color scheme according to drv without losing the unique smooth line, you can add the color as an exclusive attribute of* `geom_point()` *as shown in the code.*
 
 ```{r}
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+  geom_point(aes(color = drv)) + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit +
 ```
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
-*Color argument only affects the outline of the figure, you need the fill argument to add color to the entire box.*
+`Color ` *argument only affects the outline of the figure, you need the* `fill` *argument to add color to the entire box.*
 
 Also, the x-axis labels were overlapping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
