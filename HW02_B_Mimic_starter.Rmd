@@ -55,7 +55,8 @@ Using the diamonds dataset, make this graph:
 data("iris")
 
 ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species))+
-  geom_point(position = "dodge")
+  geom_point() +
+  facet_wrap(vars(Species), scales = "free")
 
 ```
 
