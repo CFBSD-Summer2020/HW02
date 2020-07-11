@@ -92,6 +92,20 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+
+#Define the label you want to add with paste() as an aesthetic
+ggplot(mpg, aes(displ,hwy, label = paste("Corvette", year, sep = ","))) +
+  #To label use the ggrepel package
+  geom_text_repel(
+    data = corvette,
+    segment.size = 0.2,
+    segment.color = "black",
+    nudge_x = 0.4
+  ) +
+  #To only color the points for Corvette models
+  geom_point(color = ifelse(mpg$model == "corvette", "blue", "black")) +
+  labs(title = "Corvettes are a bit of an outlier") +
+  scale_x_continuous(limits = c(1,8), breaks = seq(1:8))
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
