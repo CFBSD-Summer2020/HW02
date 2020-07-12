@@ -74,7 +74,8 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+  geom_smooth(se = F, aes(color = NULL)) #se = F makes it so it won't show the error in the line of fit
+
 ```
 
 ### Graph Fail 5
@@ -84,9 +85,9 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
-  geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(fill='#A4A4A4', color="black") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
