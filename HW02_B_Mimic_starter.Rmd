@@ -85,7 +85,7 @@ ggplot(mpg, aes(displ, hwy)) +
   geom_text_repel(data = corvette, label = paste("Corvette,", corvette$year)) + #Label the highlighted datapoints using paste function.
   labs(title = "Corvettes are a bit of an outlier") + #Add plot title
   theme(plot.title = element_text(face = "bold")) + #make plot title bold
-  expand_limits(x=8)
+  expand_limits(x=1:8)
 
 ```
 
