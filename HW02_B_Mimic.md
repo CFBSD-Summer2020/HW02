@@ -1,6 +1,6 @@
 HW02\_B\_Graph-Mimic
 ================
-Robert Gruener
+Zeeshan Banday
 
 ``` r
 library("ggplot2")
@@ -14,6 +14,7 @@ theme_set(theme_bw()) #I'll give you this one, you can set the theme individuall
 
 #for graph 3:
 library("ggrepel")
+install.packages("ggrepel")
 ```
 
 ## HW02 Part B
@@ -32,17 +33,42 @@ is for. :smile:
 ``` r
 data("diamonds")
 #hint think about the *position* the bars are in...
-```
+
 
 Using the diamonds dataset, make this graph:
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+```
+## code for **graph 1**
+``` r
+ggplot(data = diamonds) + 
+   geom_bar(aes(x = cut, fill = clarity), position = "dodge") +
+   theme(plot.title = element_text(hjust =0.5)) +
+   labs(x = "Diamond Cut", 
+        y = "Number of Diamonds", 
+        title = "My Diamond Collection", 
+        subtitle = "Barplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond")
+
+```
+
+        
 ### Graph 2
 
 ``` r
 data("iris")
 ```
-
+## code for **graph 2**
+``` r
+data("iris")
+iris$Species<-factor(iris$Species, levels = c("versicolor","setosa", "virginica"))
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length)) + 
+   geom_point(aes(color = Species, shape = Species)) +
+   facet_wrap(~Species, scales = "free_y") +
+   geom_smooth(method = "lm", se = FALSE, color = "black")
+   labs(x = "Sepal.Length", 
+        y = "Petal.Length") 
+        
+```
 Using the iris dataset, make this graph:
 
     ## `geom_smooth()` using formula 'y ~ x'

@@ -1,7 +1,7 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
-date due: "7/13/2020"
+author: "Zeeshan Banday"
+date due: "7/12/2020"
 output: github_document
 ---
 
@@ -37,6 +37,17 @@ mpg %>%
   geom_point()
 
 ```
+**i got this Error: `mapping` must be created by `aes()` Did you use %>% instead of +?. This essentially tells us that
+we have used pipe code `%>% `instead of operator `+`** *I also noticed that city =cty in the data, so cty must be used in the code*
+##corrected code **graph 1**
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+mpg %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point()
+
+```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
@@ -45,8 +56,17 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 ```
+#To change color of **geom_point()**
+**I think the `color="blue"` argument ought to be outside of aes(). We may also move x and y variables to separate aes().**
+##corrected code **graph 2**
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+# Alternate code could be
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point (color = "blue")
 
-
+```
 
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
@@ -60,14 +80,36 @@ ggplot() +
   theme(legend.position = c(5, 40))
 
 ```
+#To change size of geom_point
+**Alpha sets the transparency of the points (0=transparent, 1=opaque).Thus `alpha=2` does not help. `size` argument is used to change the size of point in `geom_point()`**
+## To change legend
+legend can be put on top of graph by 'theme(legend.position="top")'. **legend.position** can be also a numeric vector c(x,y) and used to manually set the x and y coordinates of the legend box. values should be between **0** and **1** and in our case `c(0.6,0.9)` seems just fine to me. To **remove the legend title** call `element_blank()` within `theme()` layer. Finally to completely **hide the legend** for the **legendless plot** use `theme(legend.posiion="none")`.
+##corrected code **graph 3**
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(0.6, 0.9))+
+  theme(legend.title = element_blank())
+
+```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
-
 ```{r}
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+```
+#Correcting **geom_smooth()**
+Having `color=drv` inside `ggplot()` as `aes()` gives applies to all the three layers. Having `color=drv` **aes()** in `geom_point()` gives one smoothing line.
+##correctd code **graph 4**
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point( aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -82,6 +124,12 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
-
-
+##color fill **geom_boxplot**
+** `color` arguments of `aes()` only changes the color of outlines while `fill` argument changes the color of the fill.Using `hjust=1` nicely aligns the x-axis labels.
+##corrected code ** graph 5**
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
+```
 
