@@ -33,17 +33,19 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
 
+#issue: used %>% instead of plus at the end of line 36, also "city" needs to be "cty"
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "blue")
 
+#issue: The aestetics should be in the ggplot function on line 45, without the color included here. The color needs to be included in geom_point() in order to be recognized as an attribute and not an aesthetic. 
 ```
 
 
@@ -55,10 +57,18 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2, size = 2.5) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = c(.6, .8)) +
+  theme(legend.title = element_blank())
 
+#mistake number 1: alpha can only go from 0 to 1 with 1 being totally opaque, so setting it to 2 does not make any difference. Instead, you should have changed the size of the points, for example in the code above I changed size to 2.5 
+
+#mistake number 2: you can not directly put the ordered pair into the function, as these values do not refer to the values on the graph. The range for legend position is (0,0) being bottom lefthand corner to (1,1) being the top right hand corner. You can guesstimate the values based off of this, and then continue to toggle with these values until you're satisfied with the location. 
+
+#To remove legend title "class": theme(legend.title = element_blank())
+
+#To remove plot legend completely: change legend.position = "none" in the code above. 
 ```
 
 ### Graph Fail 4
@@ -78,9 +88,11 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = .5))
+
+#Issue: color changes the outline only, so you also need to set the fill to manufacturer to reach the desired look. Also, when you rotate it makes the middle of the axis label aligned at the edge, so you must used vjust=value and hjust=value to specify. 
 ```
 
 
