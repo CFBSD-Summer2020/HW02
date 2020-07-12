@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Julia Shangguan"
 output: github_document
 ---
 
@@ -11,15 +11,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```{r load libraries, echo = TRUE, include=TRUE}
 library("ggplot2")
-library("magrittr") #so I can do some piping
+library("magrittr") 
 data("diamonds")
 data("mpg")
 data("iris")
-theme_set(theme_bw()) #I'll give you this one, you can set the theme individually for graphs
-#or you can set the theme for all the graphs using theme_set()
-#theme_bw() is best theme (IMO)
-
-#for graph 3:
+theme_set(theme_bw()) 
 library("ggrepel")
 
 
@@ -27,22 +23,17 @@ library("ggrepel")
 
 ## HW02 Part B
 
-For this part of the HW, the goal is to try to recreate the graphs I make from scratch. I will only provide the MD, not the actual code I used to create it besides which data I use to create it. The rest will be up to you. 
-
-Try for all 4, but if you are struggling don't worry about it. Try your best for each, if you don't get everything that's what the peer-review is for. :smile:
-
-
 ### Graph 1
 ```{r, echo = T, include = TRUE}
-data("diamonds")
-#hint think about the *position* the bars are in...
-```
-
-
-Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
-
-
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  geom_bar(position = "dodge") + 
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000,fill = "black", alpha = 0.2) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") +
+  theme_bw() +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5)) 
 ```
 
 ### Graph 2
