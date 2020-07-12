@@ -125,3 +125,36 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 ```
+
+
+---
+title: "HW02_B_Graph-Mimic"
+author: "Julia Shangguan"
+output: github_document
+---
+
+## HW02 Part B
+
+### Graph 1
+```{r}
+library("ggplot2")
+library("magrittr") #so I can do some piping
+data("diamonds")
+data("mpg")
+data("iris")
+theme_set(theme_bw()) #I'll give you this one, you can set the theme individually for graphs
+#or you can set the theme for all the graphs using theme_set()
+#theme_bw() is best theme (IMO)
+
+#for graph 3:
+library("ggrepel")
+
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  geom_bar(position = "dodge") + 
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000,fill = "black", alpha = 0.2) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") +
+  theme_bw() +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5)) 
