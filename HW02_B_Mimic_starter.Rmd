@@ -42,6 +42,11 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
 
+ggplot(diamonds)+
+  geom_bar(aes(cut, ..count.., fill = clarity), position = "dodge") + 
+  labs(title = "My Diamond Collection", x = "Diamond Cut", y = "Number of Diamonds")+
+  theme(plot.title = element_text(hjust = 0.5))
+  
 
 ```
 
