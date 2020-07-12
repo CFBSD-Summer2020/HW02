@@ -133,6 +133,10 @@ author: "Julia Shangguan"
 output: github_document
 ---
 
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE, error = TRUE)
+```
+
 ## HW02 Part B
 
 ### Graph 1
