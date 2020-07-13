@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Brock Adams"
 output: github_document
 ---
 
@@ -36,6 +36,16 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+diamonds %>% 
+  ggplot(mapping = aes(x = cut, color = clarity)) + #Clarity groups differ by color
+  geom_bar(mapping = aes(fill = clarity), position = "dodge") + #Plots data not stacked, bars filled with color
+  annotate(geom = "rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, 
+           alpha = 0.3) + #Adds annotation box around Ideal group
+  annotate(geom = "text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") + #Adds text next to annotation box
+  labs(x = "Diamond Cut", y = "Number of Diamonds", title = "My Diamond Collection",
+       subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") + #Label x and y axes, title, subtitle, and caption
+  theme(plot.title = element_text(size = 16, hjust = 0.5)
+        ) #Adjusts the font size and location of title
 ```
 
 
@@ -68,7 +78,7 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graph 3 code}
 
 ```
 
