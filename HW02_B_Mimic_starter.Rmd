@@ -105,6 +105,17 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ggplot(data = mpg, aes(x = cty, y = class)) +
+  geom_boxplot(orientation = "y", outlier.shape = NA) + 
+  geom_jitter(shape = 16, position = position_jitter(0), aes(color = class), alpha = 0.6) +
+  scale_x_continuous(limits = c(10,35), breaks = seq(10, 35, by = 5)) +
+  scale_color_brewer(palette = "Set2") +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg") +
+  theme(panel.border = element_blank(), panel.grid = element_blank()) + #removed grid and borders
+  theme(axis.line = element_line(color = "black")) #added the axes back in
+#I kept the axes incorrectly labeled like the example graph. Also not sure why a couple of my plotted points look different, but I did my best.
+  
+  
 
 ```
 
