@@ -92,23 +92,37 @@ ggplot() +
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+**My answer/comment**
+
+*Wrapping color=drv in ggplot() will apply the color to every layerl, which is why there were three seperate lines. To have one line, I moved the color=drv to the geom_point. This way it's only applied to the points.*
+
+*I also noticed an interesting fact that the block of codes below would fail with an error message saying "%>% cannot be found" and wont if I didnt run the library("magrittr") in the very first r code block in this file.* 
+
+
 ```{r}
-mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+mpg %>%  
+ggplot(mapping = aes(x = displ, y=hwy)) + 
+  geom_point(mapping = aes(color = drv)) + 
+  geom_smooth(se = F) 
 ```
+
+
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
+**My answer/comment**
+
+*Using fill instead of color will change the box colors.*
+
+*Using hjust = 1 will adjust the x-axis labels to a proper position without overlapping with the graph.*
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, hjust=1))
 ```
 
 
