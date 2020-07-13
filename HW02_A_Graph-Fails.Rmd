@@ -29,20 +29,25 @@ library("magrittr") #so I can do some piping
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
+ANSWER: The error being thrown says "Error: 'mapping' mus be created by 'aes()'" as well as "Did you use %>% instead of +?". Additionally, the variable name does not appear to be "city" but "cty", although this was not thrown as an error until the others were fixed, which I did below:
+
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
+ANSWER: The points were not blue because the code was trying to manipulate the color as an aesthetic -- that is to say, within aes(), but manipulating the color of the dots based on something other than a variable is an **attibute** and thus should be outside aes(). I have made the proper change below:
+
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -51,36 +56,48 @@ ggplot(data = mpg) +
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
+ANSWER: alpha manipulates transparency, not size. And the reason it was not altered is that alpha should be between 0 and 1. The code probably reads any number above 1 as equivalent to 1. If you want the points to be bigger, you should manipulate size, which I did below.
+
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+ANSWER: To move the legend to the top, set legend.position equal to "top", which I did below. To remove the legend title "class", I added a new theme line that sets legend.title to element_blank(). If I wanted to remove the legend completely, I could set legend.position equal to "none".
+
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 1, size = 3) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = "top") +
+  theme(legend.title = element_blank())
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+ANSWER: I fixed it below. It seems that by defining the color by drv in the ggplot function that the code began to treat each drv group as its own separate data, plotting each's trend. By moving the aes(color = drv) into the geom_point() function, it eliminates this differentiation, meaning the line becomes one that reflects the trend for all the data together, regardless of drv. Additionally, the default smoothening line color is blue, which could get confusing given one of the drv colors is blue, so I changed it to black.
+
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
+  geom_smooth(se = F, color = "black") #se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
+ANSWER: With box plots, you need to manipulate the fill if you want the inside of the box to be a different color. Manipulating color only affects the outline. I added a fill change to make the whole box one color.
+
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
+
+ANSWER: Good call on removing the x axis labels given the legend makes them redundant. You can do that by setting it equal to element_blank(), which I did below.
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_blank())
 ```
 
 
