@@ -2,6 +2,9 @@ HW02\_B\_Graph-Mimic
 ================
 Julia Shangguan
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
 ``` r
 library("ggplot2")
 library("magrittr") 
