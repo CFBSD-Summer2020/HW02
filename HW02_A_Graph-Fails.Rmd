@@ -42,7 +42,7 @@ mpg %>%
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 
-*R-* The parameter to change color was misplaced (should not be within mapping = aes())
+*R-* The argument to change color was misplaced (should not be within mapping = aes())
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy) , color = "blue")
@@ -52,11 +52,11 @@ ggplot(data = mpg) +
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
-*R-* By modifying the alpha parameter you change the degree of transparency of the points. To modify the size you need to use the parameter size.
+*R-* By modifying the "alpha" argument changes the degree of transparency of the points. To modify the size you need to use the argument "size".
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 
-*R-* For the position, one should use the relative position in x and y (from 0 to 1, where 0 is the origin in both access and 1 the highest values). To remove the title I added theme(legend.title=element_blank()). 
+*R-* For the position, one should use the relative position in x and y (from 0 to 1, where 0 is the origin in both axes and 1 the highest values). To remove the title I added theme(legend.title=element_blank()). 
 
 ```{r}
 mpg %>% 
@@ -77,7 +77,7 @@ ggplot() +
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
-*R-* Because the grouping based on "drv" (which is shown by color) is taking into account unless stated. Therefore, I added aes(color=NULL) within geom_smooth, so the color grouping was ignore when making the line. I also changed the line color to black.
+*R-* Because the grouping based on "drv" (which is shown by color) is taking into account unless stated when making the lines. Therefore, I added aes(color=NULL) within geom_smooth, so the color grouping was ignored when making the lines. I also changed the line color to black.
 ```{r}
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
@@ -85,17 +85,14 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth(se = F, aes(color=NULL), color = "black") #se = F makes it so it won't show the error in the line of fit
 ```
 
-
-##### Aca voy!
-
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
-
+*R-* To make the boxes all one color, you need to add the argument "fill". To modify the position of x-axis labels, I modified the "hjust" (justification) argument.
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill=manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45, hjust=1))
 ```
