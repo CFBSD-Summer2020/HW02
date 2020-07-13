@@ -35,7 +35,17 @@ data(mpg) #this is a dataset from the ggplot2 package
 mpg %>% 
   ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
   geom_point()
+#The issue here arises, as the error message explains, due to the use of the pipe operator " %>%  " instead of +
+#The pipe operator would place the result of the ggplot() function inside of geom_plot() function, which R cannot understand
+#You would correct this by replacing the pipe operator with " + "
+```
 
+```{r}
+#this is the corrected version
+mpg %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point()
+#the argument " x = city " was changed to " x = cty " because the original resulted in an error
 ```
 
 ### Graph Fail 2
