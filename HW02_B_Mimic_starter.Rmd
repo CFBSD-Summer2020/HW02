@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Laura Cespedes Arias"
 output: github_document
 ---
 
@@ -40,8 +40,16 @@ data("diamonds")
 
 
 Using the diamonds dataset, make this graph:
+
+
 ```{r graph1 code, echo=FALSE}
 
+ggplot(diamonds, aes(cut)) + 
+  geom_bar(aes(fill=clarity), position = "dodge") +
+  ylab("Number of Diamonds") +
+  xlab("Diamond Cut") +
+  ggtitle(label="My Diamond Collection",subtitle="Boxplot representing the number of diamonds in my diamond collection \n by type of cut quality and clarity of diamond") + theme(plot.title = element_text(hjust = 0.5, size = 14)) +
+  annotate("text", x=4, y=4500, label= "My Best Diamonds, \n of course")
 
 ```
 
@@ -53,8 +61,11 @@ data("iris")
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
 
+ggplot(iris, mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species, shape =Species)) + 
+  geom_point() + 
+  geom_smooth(se = F, method ="lm",color = "black")  +
+  facet_wrap(~Species, scales="free_y",)
 ```
-
 
 ### Graph 3
 You'll need the information in this first box to create the graph
@@ -69,7 +80,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
-
+ggplot(mpg,mapping = aes(x = displ, y = hwy)) + 
+  geom_point() +
+  xlim(1,8)+
+  ggtitle(label="Corvettes are a bit of an outlier") +
+  geom_point(data=corvette,color="blue") +
+  geom_text_repel(data= corvette, aes(label= paste("Corvette,",year)))
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -86,12 +102,15 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 
 The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
 
-
-
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(mpg,mapping = aes(x = cty, y = class)) + 
+  geom_jitter(shape=16, position=position_jitter(0),aes(color=class))+
+  geom_boxplot(outlier.shape=NA,fill=NA) +
+  scale_color_brewer(palette = "Set2") +
+  ylab("Car class") +
+  xlab("City mpg")
 ```
 
 
