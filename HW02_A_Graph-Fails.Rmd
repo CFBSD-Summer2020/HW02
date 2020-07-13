@@ -129,7 +129,15 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
+
+#To change all of the boxes to one color, you cannot use the argument "color" within the aes() function. Instead, it needs to be used as an argument of geom_boxplot(). However, the "color" argument will only change the color of the outline of the boxes - it would need to be used in conjunction with the "fill" argument using the same color value as the "color" argument to completely change the entire box.
+#The issue with the x-axis labels overlapping with the graph can be solved using the argument "vjust" for element_text(). Setting vjust to equal 0.7 gives a comfortable buffer between the labels and the graph.
 ```
 
 
-
+```{r}
+#This is a corrected version of the graph
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(color = "grey40", fill = "grey40") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+```
