@@ -1,6 +1,6 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
+author: "Ben Wang"
 date due: "7/13/2020"
 output: github_document
 ---
@@ -33,19 +33,19 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
-
 ```
-
+### In the tutorial on DataCamp, we always used '+' for geom_point functions so I tried that here
+### I tried running the program but it could not find the object 'city'. The data refers to it as 'cty' instead of 'city', so I changed 'city' to 'cty'
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color = "blue")
 
 ```
-
+### Need to have color separately in 'geom_point()'
 
 
 ### Graph Fail 3
@@ -55,33 +55,38 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = c(0.65, 0.85)) +
+  theme(legend.title = element_blank())
 
 ```
+### Alpha does not change the size, it changes the opacity (0 is transparent, 1 is opaque). We change 'alpha' to 'size' to set size 
+### Experimented with different coordinates until I got the legend where I wanted it
+### Removing legend title wouldn't let us use "none" so "element_blank" worked instead. To completely hide the legend, I could give it a position not seen in the graph (legend.position = c(10000,10000)) or use "none".
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
+### color = drv is responsible for drawing the lines. Since it was inside ggplot(mapping), the lines were drawn indepedently of geom_point and geom_smooth layers. Placing it only in geom_point draws the line according to the point layer only, creating one line for the general relationship.
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
-Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
+Also, the x-axis labels were overlapping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
-
+### 'color' changes outline, 'fill' changes actually inside of the box
+### use 'hjust' to adjust horizontal axis distance
 
