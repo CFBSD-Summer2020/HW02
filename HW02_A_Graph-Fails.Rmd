@@ -33,16 +33,17 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
-
+#changed city -> cty (corrected the spelling) and exchanged the %>% for the + sign
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy),  color = "blue") 
+#needed to remove the argument for color outside of the aes parentheses
 
 ```
 
@@ -55,10 +56,15 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
-
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+#alpha controls the transparency of the points, changing it to 2 does nothing since alpha operates on a % scale (it goes from 0 - 1)
+#changed the alpha argument to a size argument to make the points bigger
+  theme(legend.direction = "horizontal", 
+        legend.position = c(.6, .85), 
+        legend.title =   element_blank())
+#needed to change the numbers for the legend position to a 'relative position' (between 0 - 1), set the legend title to blank to remove it and put all of the legend code into one line to reduce redundancy
+#to remove the legend completely, you would set legend.position = "none"
+  
 ```
 
 ### Graph Fail 4
@@ -66,8 +72,10 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+#needed to remove the color argument from the above line of code so the smooths aren't applied to each grouping individually
+  geom_point(aes(color = drv)) + 
+#by setting the color argument here instead, geom_smooth only acts on the data groupings as defined in the original ggplot line of code - so it fits one line because the data is one group
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -78,9 +86,10 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer, color = manufacturer)) + 
+#to make the entire box one color, both the fill and color arguments must be set to the same variable, I recommend against this however and would suggest deleting the color argument so that way the boxplots have a black outline and you could still see where the mean values lie on the plot
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, vjust = .65))
 ```
 
 
