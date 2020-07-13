@@ -80,7 +80,7 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 -There are three lines initially fit because the data is separated into three groups by colour = drv. In order to have a single line of fit, set grouping aesthetic to 1.
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, colour = drv)) + 
+ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(aes(group = 1), se = F) #se = F makes it so it won't show the error in the line of fit
 ```
@@ -88,13 +88,15 @@ ggplot(mapping = aes(x = displ, y = hwy, colour = drv)) +
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
+-In order to change the boxplot color, alter the boxplot layer. Setting color in ggplot changes color based on group, it does not set the plot to a single color.
+
 Also, the x-axis labels were overlapping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
-
-```{r}
+-Use vjust in element_text to alter the vertical justification of the x-axis text.
+```{r Color changing and x axis tex}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
-  geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.6))
+  geom_boxplot(color = "#00AFBB") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.6)) #vjust changes vertical justification.
 ```
 
 
