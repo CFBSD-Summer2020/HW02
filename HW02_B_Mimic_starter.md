@@ -62,10 +62,6 @@ ggplot(mpg, aes(displ, hwy, label = paste("Corvette,",year))) +
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-There is a trick to getting the model and year to print off together.
-`paste()` is a useful function for this, also pasting together parts of
-file names and parts of urls together.
-
 ### Graph 4
 
 I assume that Robert added jitter to get the extra data points, so I
