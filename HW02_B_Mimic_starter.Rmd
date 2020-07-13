@@ -40,6 +40,7 @@ data("diamonds")
 
 
 Using the diamonds dataset, make this graph:
+
 ```{r graph1 code, echo=FALSE}
 
 ggplot(diamonds, aes(cut)) + 
