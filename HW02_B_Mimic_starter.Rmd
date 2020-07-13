@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Honorine Destain"
 output: github_document
 ---
 
@@ -41,7 +41,15 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+ggplot(diamonds, aes(cut, stat = "count", color = clarity, fill = clarity)) +
+  geom_bar(position = "dodge") +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  labs(subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") +
+  ggtitle("My Diamond Collection") + 
+  theme(plot.title = element_text(hjust = 0.5)) + #disclaimer: found how to center title on stackoverflow
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.4)
 
 ```
 
@@ -52,6 +60,12 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
+  geom_point(aes(shape = Species)) +
+  facet_wrap(vars(Species), scales = "free_y") + #disclaimer: also found on stackoverflow 
+  geom_smooth(method = "lm", formula = y ~ x, color = "black", se = F)
+
+  #not sure how to get the graphs in order of versicolor - setosa - virginica
 
 ```
 
@@ -68,7 +82,15 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graph 3 code}
+corvetteLabel <- paste("Corvette,",corvette$year)
+ggplot(mpg, aes(displ, hwy)) + 
+  geom_point() +
+  geom_point(data = corvette, color = "blue") +
+  geom_text_repel(data = corvette, aes(label = corvetteLabel)) + 
+  ggtitle("Corvettes are a bit of an outlier")
+
+  #my labels are a little different than what is shown in the original; not sure what is different about my code that causes this
 
 ```
 
@@ -91,6 +113,14 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ggplot(mpg, aes(cty, class)) +
+  geom_boxplot() +
+  geom_point(aes(color = class), position = "jitter") +
+  xlab("Car Class") +
+  ylab("City mpg") +
+  scale_fill_brewer(palette = "Set2")
+
+  #I'd appreciate feedback on how to fix the color palette and set up the points (without using jitter)
 
 ```
 
