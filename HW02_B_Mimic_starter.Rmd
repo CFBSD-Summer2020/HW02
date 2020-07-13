@@ -83,7 +83,14 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graph 3 code}
-
+mpg %>% 
+  ggplot(mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_point(data = corvette, color = "blue") + #Makes corvette subset blue
+  scale_x_continuous(limits = c(1,8), breaks = c(1:8)) + #Adjusted x-axis scale to match graph
+  geom_text_repel(data = corvette, aes(label = paste0("Corvette,",year)), 
+                  nudge_x = 0.25) + #Label corvette subset and move to match graph*
+  labs(title = "Corvettes are a bit of an outlier")
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
