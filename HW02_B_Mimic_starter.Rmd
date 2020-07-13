@@ -36,6 +36,15 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(position = "dodge") + 
+  labs(x = "Diamond Cut", y = "Number of Diamonds", title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = .3) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds, \nof course ")
+
+
+
 ```
 
 
@@ -48,6 +57,17 @@ Using the diamonds dataset, make this graph:
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+iris$Species <- factor(iris$Species, levels = c("versicolor", "setosa","virginica"))
+  ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  scale_color_manual(values = c("#00BC59", "#FC717F", "#529EFF"))  +
+  scale_shape_manual(values = c(17, 16, 15)) +
+  facet_wrap(~Species, scales = "free") + scale_x_continuous(limits = c(4.3, 8)) +
+  geom_smooth(method = lm, se = FALSE, color = "black", formula = y ~ x)
+  
+  #could't find the exact default color names, so I guesssed off of a color scale chart.
+  iris$Species <- factor(iris$Species, levels = c("versicolor", "setosa","virginica"))
+  
 ```
 
 Using the iris dataset, make this graph:
@@ -69,7 +89,16 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+Not_corvette <- mpg[mpg$model != "corvette",]
 
+ggplot(Not_corvette, aes(displ, hwy, label = paste("Corvette,", year))) + 
+  geom_point() + 
+  geom_point(data = corvette, color = "blue") +
+  geom_text_repel(data = corvette) +
+  scale_x_continuous(limits = c(1, 8), breaks = c(1:8)) + 
+  labs(title = "Corvettes are a bit of an outlier")
+  
+#Couldn't make the labels lay out exactly as the picture did..
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -78,6 +107,7 @@ There is a trick to getting the model and year to print off together. `paste()` 
 ### Graph 4 
 ```{r, echo = T}
 data(mpg)
+library(RColorBrewer)
 
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
@@ -91,7 +121,16 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ggplot(mpg, aes(class, cty, color = class)) + 
+  geom_jitter(height = 0) +
+  scale_color_brewer(palette = "Set2") +
+  geom_boxplot(color = "black", alpha = 0) + 
+  coord_flip() +
+  labs(x = "City mpg", y = "Car Class", title = "Horizontal BoxPlot of City MPG and Car Class") +
+  scale_y_continuous(limit = c(10, 35)) +
+  theme(panel.grid = element_blank(), panel.border = element_blank(), axis.line = element_line(color = "black"))
 
+#couldn't get the jitter to line up just right
 ```
 
 
