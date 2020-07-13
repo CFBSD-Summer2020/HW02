@@ -61,7 +61,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Sp
   geom_point() +
   geom_smooth(method = "lm", color = "black", se = FALSE) +
   facet_wrap(. ~ Species, scales = "free_y") 
-  
+#I do not know how to switch the graphs around in the correct order, if I have time I'll go back and play with this one more later
 ```
 
 
@@ -77,8 +77,13 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
-
+```{r graph 3 code}
+ggplot() +
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point(data = corvette, mapping = aes(x = displ, y = hwy), color = "blue") +
+  geom_text_repel(data = corvette, aes(x = displ, y = hwy, label= paste("Corvette,",year))) +
+  labs(title = "Corvettes are a bit of an outlier") +
+  scale_x_continuous(limits = c(1,8), breaks = c(1:8))
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
