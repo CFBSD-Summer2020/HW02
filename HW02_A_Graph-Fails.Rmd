@@ -1,6 +1,6 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
+author: "Edited by Julia Shangguan"
 date due: "7/13/2020"
 output: github_document
 ---
@@ -11,23 +11,15 @@ knitr::opts_chunk$set(echo = TRUE, error = TRUE)
 
 ## HW02 Part A
 
-In this document, I will add some examples of some coding mistakes, it is up to you to figure out why the graphs are messing up. 
+In this document, I try to fix the coding mistakes present in the examples.
 
-### First load packages
-
-It is always best to load the packages you need at the top of a script. It's another common coding formatting standard (like using the assignment operator instead of the equals sign). In this case, it helps people realize what they need to install for the script and gives an idea of what functions will be called. 
-
-It is also best coding practice to only call the packages you use, so if you use a package but end up tossing the code you use for it, then make sure to remove loading it in the first place. For example, I could use `library("tidyverse")` but since this script will only be using ggplot2, I only load ggplot2.
-
+### I loaded in the necessary packages according to Robert's instructions. 
 ```{r load libraries}
 library("ggplot2")
 library("magrittr") #so I can do some piping
 ```
 
-
 ### Graph Fail 1
-
-What error is being thrown? How do you correct it? (hint, the error message tells you)
 
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
@@ -37,21 +29,43 @@ mpg %>%
   geom_point()
 
 ```
+**Graph 1 Answer:** If you want to use 'mapping', it should be created by the aes function. I provided two different solutions, one that uses "mapping" and another that is more streamlined in which I directly called the dataset ("mpg") within the ggplot function. In both solutions, I added the geom_point layer with a ("+") to the ggplot function. Additionally, when I called str(mpg), I see that "city" doesn't exist, so I am assuming that "cty" was actually meant. 
+
+*Graph 1 Solution #1*
+
+```{r}
+#library("ggplot2") #loaded library 
+str(mpg) #checking the dataframes's structure
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = cty, y = hwy, color = "blue")) 
+```
+
+*Graph 1 Solution #2*
+
+```{r}
+ggplot(mpg, aes(x = cty, y = hwy, color = "blue")) + geom_point()
+```
 
 ### Graph Fail 2
-Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 ```
 
+**Graph 2 Answer:** If you want to change the color of the points, the "color" argument should be outside the aes function. You assign variables to "color" within the aes function if you want to change the color of the graph according to levels of that variable. 
 
+*Graph 2 Solution*
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+```
 
 ### Graph Fail 3
-Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
-Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 ```{r}
 mpg %>% 
 ggplot() + 
@@ -61,8 +75,20 @@ ggplot() +
 
 ```
 
+**Graph 3 Answer:** Alpha changes the opacity. Setting alpha = 2 doesn't do anything because 100% opacity is already reached at alpha = 1. To increase point size, use the argument "size". Furthermore, to move the legend, use the theme function and the legend.position() argument. c(x,y) cannot be greater than (1,1) because (1,1) specifies the top right location of the graph. To remove elements from the graph, set "element_blank()" in theme() elements; see below. To remove the legend entirely, add layer: theme(legend.position = "none")
+
+*Graph 3 Solution*
+
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(0.6, .8), legend.title=element_blank()) 
+  # + theme(legend.position = "none") #to remove legend
+```
+
 ### Graph Fail 4
-I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
 ```{r}
 mpg %>% 
@@ -71,11 +97,19 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
+**Graph 4 Answer:** Geom_smooth is creating a line for each level of "drv" because the data has been grouped by drv levels. If just one line is wanted for all the data points, remove the color argument. 
+
+*Graph 4 Solution*
+
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth(se = F) 
+```
+
+
 ### Graph Fail 5
-I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
-
-Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
-
 
 ```{r}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
@@ -83,5 +117,13 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   theme(axis.text.x = element_text(angle = 45))
 ```
 
+**Graph 5 Answer:** To make the box one color, use the "fill" argument. To move the axis label, I used argument "vjust" to increase spacing between the x labels and ticks. 
+
+*Graph 5 Solution*
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+```
 
 
