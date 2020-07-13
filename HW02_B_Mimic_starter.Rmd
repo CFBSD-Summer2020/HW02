@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Ricardo Muñiz Trejo"
 output: github_document
 ---
 
@@ -36,22 +36,48 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+
 ```
 
 
 Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
-
+```{r graph1 code, echo=TRUE}
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(position = "dodge") +
+  #To add labels to title, subtitle, x- and y-axes.
+  labs(title = "My Diamond Collection", 
+       subtitle = "Boxplot representing the number of diamonds in my  diamond collection by \ntype of cut quality and clarity of diamond",
+       x = "Diamond Cut", 
+       y = "Number of Diamonds") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  #annotate() to add the text and the rectangle
+  annotate("text", x = 4, y = 4500, 
+           label = "My Best Diamonds,\nof course") +
+  annotate("rect", xmin = 4.5, xmax = 5.5, 
+           ymin = 0, ymax = 5000, 
+           alpha = 0.3)
 
 ```
 
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+
+
 ```
 
 Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
+```{r graph 2 code, echo=TRUE}
+#To reorder the panels within the graph
+iris$Species2 <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species))+
+  geom_point() +
+  geom_smooth(se = F, method = lm, color = "black") +
+  #To put species in different panels
+  facet_wrap(vars(Species2), scales = "free") +
+  #To resize x-axis per species
+  scale_x_continuous(limits = c(4.25,8))
 
 ```
 
@@ -64,11 +90,26 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graph 3 code, echo = TRUE}
+#Define the label you want to add with paste() as an aesthetic
+ggplot(mpg, aes(displ,hwy, label = paste("Corvette", year, sep = ","))) +
+  #To label use the ggrepel package
+  geom_text_repel(
+    data = corvette,
+    segment.size = 0.2,
+    segment.color = "black",
+    nudge_x = 0.4
+  ) +
+  #To only color the points for Corvette models
+  geom_point(color = ifelse(mpg$model == "corvette", "blue", "black")) +
+  labs(title = "Corvettes are a bit of an outlier") +
+  scale_x_continuous(limits = c(1,7.9), breaks = seq(1:8))
+
 
 ```
 
@@ -82,15 +123,24 @@ data(mpg)
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
 ```
 
-The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
+The above graph lets you see some colorblind friendly palettes. For the graph below, I used Set2.
 
 
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
+```{r graph 4 code, echo = TRUE}
+ggplot(mpg, aes(cty, class)) +
+  geom_boxplot(outlier.shape = NA) +
+  geom_jitter(aes(color = class), width = 0, height = 0.4) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class",
+       y = "City MPG") +
+   #Colorblind friendly palette "Set2"
+  scale_color_brewer(palette = "Set2")
 
 ```
 
