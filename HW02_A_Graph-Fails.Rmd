@@ -33,16 +33,17 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = cty, y = hwy)) %>% +
-  geom_point(color = "blue")
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) %>% + #change "city" to "cty"
+  geom_point()
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
-ggplot(mpg, aes(x = displ, y = hwy)) + 
+ggplot(mpg, aes(x = displ, y = hwy)) + #move aes to ggplot, specify color in geom.
   geom_point(color = "blue")
+#Find the figure ![here] (/Users/stokamov/Box Sync/BSDG 30901_Quantitative Bio Data Camp/HW02_forked/HW02_A_Graph-Fails_files/figure-gfm/graph2_corrected)
 
 ```
 
@@ -55,10 +56,10 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + #change alpha = 2 to size =2. alpha sepecifies opacity and needs to be 0 - 1.
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(0.6, 0.9)) +
-  theme(legend.title = element_blank())
+  theme(legend.position = c(0.6, 0.9)) + #values 0-1, in proportion to the graph, where 0, 0 is the left bottom of the graph
+  theme(legend.title = element_blank()) #removes legend
 
 ```
 
@@ -68,7 +69,7 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 ```{r}
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy)) + 
-  geom_point(mapping = aes(color = drv)) + 
+  geom_point(mapping = aes(color = drv)) + #specifyin color in ggplot will apply colors to everything (i.e. points, lines, etc). So moving color = drv to geom_point will only apply color to the points, and geom_smooth will now fit a line to the entire plot, not individual colored points. 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -80,8 +81,8 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 ```{r}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
-  geom_boxplot(fill = "red") + 
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+  geom_boxplot(fill = "red") + #this will create a boxplot with all boxes red
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) #vjust allows to move the x-axis labels.
 ```
 
 
