@@ -1,6 +1,7 @@
 ---
 title: "What went wrong?"
 author: "Robert Gruener"
+editor: "Brock Adams"
 date due: "7/13/2020"
 output: github_document
 ---
