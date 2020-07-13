@@ -42,11 +42,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Sp
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
-Using the iris dataset, make this graph:
-
 ### Graph 3
-
-You’ll need the information in this first box to create the graph
 
 ``` r
 data("mpg")
@@ -56,7 +52,15 @@ require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
-Now using the mpg dataset and the corvette dataset, make this graph:
+``` r
+ggplot(mpg, aes(displ, hwy, label = paste("Corvette,",year))) +
+  geom_point() +
+  labs(title = "Corvettes are a bit of an outlier") +
+  geom_text_repel(data = subset(corvette)) +
+  geom_point(data = subset(corvette), color ="blue")
+```
+
+![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 There is a trick to getting the model and year to print off together.
 `paste()` is a useful function for this, also pasting together parts of
@@ -72,7 +76,7 @@ library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
 ```
 
-![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 The above graph lets you see some colobrlind friendly palettes. For the
 graph below, I used Set2.
