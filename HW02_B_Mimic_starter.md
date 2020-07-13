@@ -33,8 +33,14 @@ ggplot(diamonds, aes(x = cut, fill = clarity)) +
 ### Graph 2
 
 ``` r
-data("iris")
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap(~Species, ncol = 3, scales = "free_y") +
+  xlim(4,8) +
+  geom_smooth(method = "lm", formula = y~x, se = FALSE, color = "black")
 ```
+
+![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 Using the iris dataset, make this graph:
 

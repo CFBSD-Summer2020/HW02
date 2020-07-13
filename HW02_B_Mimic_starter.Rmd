@@ -4,10 +4,6 @@ author: "Julia Shangguan"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
-
 
 ```{r load libraries, echo = TRUE, include=TRUE}
 library("ggplot2")
@@ -38,7 +34,13 @@ ggplot(diamonds, aes(x = cut, fill = clarity)) +
 
 ### Graph 2
 ```{r, echo = T, include = TRUE}
-data("iris")
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap(~Species, ncol = 3, scales = "free_y") +
+  xlim(4,8) +
+  geom_smooth(method = "lm", formula = y~x, se = FALSE, color = "black")
+
 ```
 
 Using the iris dataset, make this graph:
