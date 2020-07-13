@@ -46,13 +46,21 @@ ggplot(diamonds)+
   geom_bar(aes(cut, ..count.., fill = clarity), position = "dodge") + 
   labs(title = "My Diamond Collection", x = "Diamond Cut", y = "Number of Diamonds")+
   theme(plot.title = element_text(hjust = 0.5))
-  
 
 ```
 
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+#this is of using the facets
+
+ggplot(iris) + 
+  geom_point(aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species))+
+  facet_wrap(factor(iris$Species, levels = c("versicolor","setosa","virginica")))
+
+#geom_smooth(method=lm)
+  
+
 ```
 
 Using the iris dataset, make this graph:
