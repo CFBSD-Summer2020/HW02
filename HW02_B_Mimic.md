@@ -1,6 +1,6 @@
 HW02\_B\_Graph-Mimic
 ================
-Robert Gruener
+Maria Evers
 
 ``` r
 library("ggplot2")
@@ -14,6 +14,7 @@ theme_set(theme_bw()) #I'll give you this one, you can set the theme individuall
 
 #for graph 3:
 library("ggrepel")
+
 ```
 
 ## HW02 Part B
@@ -30,9 +31,20 @@ is for. :smile:
 ### Graph 1
 
 ``` r
+library("ggplot2")
+library("magrittr")
 data("diamonds")
+
 #hint think about the *position* the bars are in...
-```
+
+ggplot(diamonds, aes( x = cut, color = clarity, fill = clarity)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Diamond Cut", y = "Number of Diamonds") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by type of cut \n quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5)) 
+  
+ 
+  ```
 
 Using the diamonds dataset, make this graph:
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
@@ -41,6 +53,13 @@ Using the diamonds dataset, make this graph:
 
 ``` r
 data("iris")
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() + 
+  geom_smooth(formula = y ~ x, color = "black") +
+  facet_wrap(~ Species)
+
+#This graph is the one I struggled the most with.  
 ```
 
 Using the iris dataset, make this graph:
@@ -57,9 +76,19 @@ You’ll need the information in this first box to create the graph
 data("mpg")
 corvette <- mpg[mpg$model == "corvette",]
 #install
-require("ggrepel") #useful for making text annotations better, hint hint
+library("ggrepel")
+require("ggrepel") 
+#useful for making text annotations better, hint hint
 set.seed(42)
-```
+
+ggplot(corvette, aes(displ, hwy)) + 
+  geom_point(data = mpg) +
+  geom_point(data = corvette, color = "blue") + 
+  labs(title = "Corvettes are a bit of an outlier") 
+
+ # For the data labels, every code I tried produced an error, or ran but did not show up on the graph.  
+  
+  ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
@@ -72,11 +101,18 @@ file names and parts of urls together.
 ### Graph 4
 
 ``` r
-data(mpg)
+data("mpg")
 
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
+ggplot(mpg, aes(cty, class, color = class)) + 
+  geom_point(position = "jitter", alpha = 0.5) + 
+  geom_boxplot(aes(group = class), alpha = 0.0, color = "black") +
+  scale_color_brewer(palette = "Set2") + 
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "City MPG", y = "Car Class")
+
 ```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
