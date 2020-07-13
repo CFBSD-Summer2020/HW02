@@ -64,7 +64,7 @@ ggplot() +
   geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal",
         legend.position = c(0.63, 0.85), #Sets legend to 63% right, and 85% top
-        legend.title = element_blank(), #Removes "class" title from legend
+        legend.title = element_blank(), #Removes title from legend
         )
 
 #Plot without a legend
@@ -77,11 +77,12 @@ ggplot() +
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+-There are three lines initially fit because the data is separated into three groups by colour = drv. In order to have a single line of fit, set grouping aesthetic to 1.
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+ggplot(mapping = aes(x = displ, y = hwy, colour = drv)) + 
   geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+  geom_smooth(aes(group = 1), se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
@@ -93,7 +94,7 @@ Also, the x-axis labels were overlapping, so I rotated them. But now they overla
 ```{r}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.6))
 ```
 
 
