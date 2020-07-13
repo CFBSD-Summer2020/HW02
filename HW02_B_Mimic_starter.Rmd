@@ -87,9 +87,9 @@ mpg %>%
   ggplot(mapping = aes(x = displ, y = hwy)) +
   geom_point() +
   geom_point(data = corvette, color = "blue") + #Makes corvette subset blue
-  scale_x_continuous(limits = c(1,8), breaks = c(1:8)) + #Adjusted x-axis scale to match graph
+  scale_x_continuous(limits = c(1,8), breaks = c(1:8)) + #Adjusted x-axis scale
   geom_text_repel(data = corvette, aes(label = paste0("Corvette,",year)), 
-                  nudge_x = 0.25) + #Label corvette subset and move to match graph*
+                  nudge_x = 0.25) + #Label corvette subset and nudge to match graph*
   labs(title = "Corvettes are a bit of an outlier")
 ```
 
