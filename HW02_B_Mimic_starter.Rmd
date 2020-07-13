@@ -52,20 +52,17 @@ ggplot(diamonds)+
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
-#this is of using the facets
-
-ggplot(iris) + 
-  geom_point(aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species))+
-  facet_wrap(factor(iris$Species, levels = c("versicolor","setosa","virginica")))
-
-#geom_smooth(method=lm)
   
 
 ```
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
-
+#this is of using the facets
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species)) + 
+  geom_point()+
+  geom_smooth(method = lm)+
+  facet_wrap(factor(iris$Species, levels = c("versicolor","setosa","virginica")))
 ```
 
 
@@ -77,11 +74,18 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+
+#geom_text and geom_text_repel both works for adding notes, but repel helps better viasualition
+ggplot(mpg, aes(x = displ, y = hwy))+
+  geom_point()+
+  geom_point(color = "blue", data = corvette)+
+  geom_text_repel(data = corvette, label = paste("Corvette,",corvette$year))
 
 ```
 
