@@ -36,6 +36,12 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+
+```
+
+
+Using the diamonds dataset, make this graph:
+```{r graph1 code, echo=FALSE}
 diamonds %>% 
   ggplot(mapping = aes(x = cut, color = clarity)) + #Clarity groups differ by color
   geom_bar(mapping = aes(fill = clarity), position = "dodge") + #Plots data not stacked, bars filled with color
@@ -44,14 +50,7 @@ diamonds %>%
   annotate(geom = "text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") + #Adds text next to annotation box
   labs(x = "Diamond Cut", y = "Number of Diamonds", title = "My Diamond Collection",
        subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") + #Label x and y axes, title, subtitle, and caption
-  theme(plot.title = element_text(size = 16, hjust = 0.5)
-        ) #Adjusts the font size and location of title
-```
-
-
-Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
-
+  theme(plot.title = element_text(size = 16, hjust = 0.5)) #Adjusts the font size and location of title
 
 ```
 
@@ -94,7 +93,7 @@ library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
 ```
 
-The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
+The above graph lets you see some colorblind friendly palettes. For the graph below, I used Set2.
 
 
 
