@@ -186,3 +186,4 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
 ```
 
+![](HW02_A_Graph-Fails_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
