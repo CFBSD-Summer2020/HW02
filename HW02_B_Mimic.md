@@ -1,6 +1,6 @@
 HW02\_B\_Graph-Mimic
 ================
-Robert Gruener
+Ariana Tortolani
 
 ``` r
 library("ggplot2")
@@ -37,6 +37,21 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+``` r 
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(position = position_dodge()) +
+  labs(title = "My Diamond Collection", 
+       subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5)) +
+  labs (x = "Diamond Cut", y = "Number of Diamonds") +
+  annotate(geom = "text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.25)
+
+```
+
+My Graph:
+![MY GRAPH](HW02_B_Mimic_starter_files/figure-gfm/graph1 code-1.png)<!-- -->
+
 ### Graph 2
 
 ``` r
@@ -48,6 +63,20 @@ Using the iris dataset, make this graph:
     ## `geom_smooth()` using formula 'y ~ x'
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+```r 
+
+iris$NewOrder <- factor(iris$Species, levels = c("versicolor","setosa","virginica"))
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, color = "black") +
+  facet_wrap(vars(NewOrder), scales = "free_y") 
+
+```
+
+My Graph:
+![MY GRAPH](HW02_B_Mimic_starter_files/figure-gfm/graph 2 code-1.png)<!-- -->
 
 ### Graph 3
 
@@ -64,6 +93,22 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+```r
+
+ggplot(mpg, aes(displ,hwy)) +
+  geom_point() + 
+  geom_point(data = corvette, color = "blue") +
+  geom_text_repel(data = corvette, aes(label = paste("Corvette,",year))) +
+  scale_x_continuous(limits = c(1,8), breaks = seq(1,8,1)) +
+  labs(title = "Corvettes are a bit of an outlier") 
+  
+
+```
+
+My Graph:
+![MY GRAPH](HW02_B_Mimic_starter_files/figure-gfm/graoh 3 code-1.png)<!-- -->
+
 
 There is a trick to getting the model and year to print off together.
 `paste()` is a useful function for this, also pasting together parts of
@@ -87,3 +132,20 @@ graph below, I used Set2.
 Now using the above mpg dataset, make this graph
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+
+```r
+
+ggplot(mpg, aes(cty, class)) +
+  geom_jitter(aes(fill = class, color = class)) + #i dont think my points here are accurate (aka like the example figure) but i am not sure how else to get them
+  scale_color_brewer(palette="Set2") +
+  geom_boxplot(fill = NA, outlier.shape = NA) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class",
+       y = "City mpg") +
+  scale_x_continuous(breaks = seq(10,35,5))
+
+```
+
+My Graph:
+![MY GRAPH](HW02_B_Mimic_starter_files/figure-gfm/graph 4 code-1.png)<!-- -->

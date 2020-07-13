@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Ariana Tortolani"
 output: github_document
 ---
 
@@ -41,7 +41,14 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+ggplot(diamonds, aes(cut, fill = clarity)) +
+  geom_bar(position = position_dodge()) +
+  labs(title = "My Diamond Collection", 
+       subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(size = 14, face = "bold", hjust = 0.5)) +
+  labs (x = "Diamond Cut", y = "Number of Diamonds") +
+  annotate(geom = "text", x = 4, y = 4500, label = "My Best Diamonds,\nof course") +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.25)
 
 ```
 
@@ -52,6 +59,13 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+
+iris$NewOrder <- factor(iris$Species, levels = c("versicolor","setosa","virginica"))
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, color = "black") +
+  facet_wrap(vars(NewOrder), scales = "free_y") 
 
 ```
 
@@ -69,6 +83,14 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+
+ggplot(mpg, aes(displ,hwy)) +
+  geom_point() + 
+  geom_point(data = corvette, color = "blue") +
+  geom_text_repel(data = corvette, aes(label = paste("Corvette,",year))) +
+  scale_x_continuous(limits = c(1,8), breaks = seq(1,8,1)) +
+  labs(title = "Corvettes are a bit of an outlier") 
+  
 
 ```
 
@@ -91,6 +113,15 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+
+ggplot(mpg, aes(cty, class)) +
+  geom_jitter(aes(fill = class, color = class)) + #i dont think my points here are accurate (aka like the example figure) but i am not sure how else to get them
+  scale_color_brewer(palette="Set2") +
+  geom_boxplot(fill = NA, outlier.shape = NA) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class",
+       y = "City mpg") +
+  scale_x_continuous(breaks = seq(10,35,5))
 
 ```
 
