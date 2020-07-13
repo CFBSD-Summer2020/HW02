@@ -90,6 +90,7 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer,
 #to make the entire box one color, both the fill and color arguments must be set to the same variable, I recommend against this however and would suggest deleting the color argument so that way the boxplots have a black outline and you could still see where the mean values lie on the plot
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45, vjust = .65))
+#added the vertical justification argument to control the vertical positioning of the x-axis text
 ```
 
 
