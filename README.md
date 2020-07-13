@@ -5,7 +5,7 @@
 
 ## First Assignment
 - [Code](HW02_A_Graph-Fails.Rmd)
-- [Markdown](Hw02_A_Graph-Fails.md)
+- [Markdown](HW02_A_Graph-Fails.md)
 
 
 ## Second Assignment
