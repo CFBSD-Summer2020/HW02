@@ -112,7 +112,16 @@ The above graph lets you see some colorblind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+mpg %>% 
+  ggplot(mapping = aes(x = cty, y = class, color = class)) +
+  geom_point(position = position_dodge2(0.8)) + #Change point overlaps
+  scale_color_brewer(palette = "Set2") + #Set color palette to Brewer Set2
+  geom_boxplot(color = "black", fill = NA, outlier.shape = NA) + #Removes outliers from boxplot and 
+  xlab("Car Class") + ylab("City mpg") + #Label X and Y axes
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class") + #Adds title
+  theme(axis.line = element_line(color = "black"), #Makes x and y axes black line
+        panel.grid = element_blank(), #Removes major and minor gridlines
+        panel.border = element_blank()) #Removes plot border
 ```
 
 
