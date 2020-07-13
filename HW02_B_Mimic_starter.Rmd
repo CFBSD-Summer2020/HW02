@@ -40,7 +40,7 @@ data("diamonds")
 
 
 Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
+```{r graph1 code, echo = T, include = TRUE}
 ggplot(diamonds,aes(cut, fill=clarity)) + 
 #Make bars dodged side-to-side
 geom_bar(position="dodge") + 
@@ -61,7 +61,7 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
+```{r graph 2 code, echo = T, include = TRUE}
 #Re-order the values of Species 
 iris$Species <- factor(iris$Species,levels=c("versicolor","setosa","virginica"))
 ggplot(iris,aes(Sepal.Length, Petal.Length, shape=Species, color=Species)) + 
@@ -89,7 +89,7 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graoh 3 code, echo = T, include = TRUE}
 ggplot(mpg, aes(displ,hwy)) + 
 geom_point() + 
 geom_text_repel(aes(displ,hwy,label=paste("Corvette", year, sep=",")), corvette) +
@@ -102,7 +102,7 @@ There is a trick to getting the model and year to print off together. `paste()` 
 
 
 ### Graph 4 
-```{r, echo = T}
+```{r, echo = T, echo = T, include = TRUE}
 data(mpg)
 
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
@@ -116,7 +116,7 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
+```{r graph 4 code, echo = T, include = TRUE}
 ggplot(mpg,aes(cty,class,color=class)) + 
 #Turn off the shape of outlying point
 geom_boxplot(color="black", outlier.shape=NA) + 

@@ -35,6 +35,21 @@ data("diamonds")
 ```
 
 Using the diamonds dataset, make this graph:
+
+``` r
+ggplot(diamonds,aes(cut, fill=clarity)) + 
+#Make bars dodged side-to-side
+geom_bar(position="dodge") + 
+#Create labels for x-axis, y-axis, title, and subtitle
+labs(x="Diamond Cut", y="Number of Diamonds", title="My Diamond Collection", subtitle="Boxplot representing the number of diamonds in my diamond collection by \n type of cut quality and clarity of diamond") +
+#Create a rectangle annotate
+annotate("rect", xmin = 4.5, xmax = 5.5, ymin=0, ymax = 5000, alpha=0.3) +
+#Add text annotate (use \n to change to the next line)
+annotate("text", x=4, y=4500, label="My Best Diamonds, \n of course") +
+#Center the title 
+theme(plot.title = element_text(hjust = 0.5)) 
+```
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)<!-- -->
 
 ### Graph 2
@@ -44,7 +59,25 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
+
+``` r
+#Re-order the values of Species 
+iris$Species <- factor(iris$Species,levels=c("versicolor","setosa","virginica"))
+ggplot(iris,aes(Sepal.Length, Petal.Length, shape=Species, color=Species)) + 
+geom_point() +
+#Add a regression line in each graph
+geom_smooth(method = "lm", formula = y ~ x, color="black", size=1.25, se=FALSE, span=1) + 
+#Wrapping with Species and make independent axis scales for each graph 
+facet_wrap(. ~ Species, scales="free_y") + 
+scale_color_manual(values = c('#00ba38','#f87676', '#619bff')) +
+scale_shape_manual(values=c(17,16,15)) 
+```
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%202%20code-1.png)<!-- -->
+
+``` r
+#How to re-order the items in legend? 
+```
 
 ### Graph 3
 
@@ -59,6 +92,15 @@ set.seed(42)
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
+
+``` r
+ggplot(mpg, aes(displ,hwy)) + 
+geom_point() + 
+geom_text_repel(aes(displ,hwy,label=paste("Corvette", year, sep=",")), corvette) +
+geom_point(aes(displ,hwy), corvette, color="blue") +
+labs(title="Corvette are a bit of an outlier") + 
+scale_x_continuous(breaks=c(1:8), limits=c(1,8))
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graoh%203%20code-1.png)<!-- -->
 
@@ -82,5 +124,16 @@ The above graph lets you see some colobrlind friendly palettes. For the
 graph below, I used Set2.
 
 Now using the above mpg dataset, make this graph
+
+``` r
+ggplot(mpg,aes(cty,class,color=class)) + 
+#Turn off the shape of outlying point
+geom_boxplot(color="black", outlier.shape=NA) + 
+geom_jitter(width=0,height=0.4) +
+scale_color_brewer(palette="Set2") +
+#I think the x-axis should be labeled as "City mpg" and y-axis should be labeled as "Car Class"
+labs(x="City mpg", y="Car Class", title="Horizontal Box Plot of City MPG and Car Class") + 
+theme(axis.line=element_line(color="black"), panel.grid.major=element_blank(), panel.grid.minor= element_blank(), panel.background=element_blank(), panel.border=element_blank()) 
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%204%20code-1.png)<!-- -->
