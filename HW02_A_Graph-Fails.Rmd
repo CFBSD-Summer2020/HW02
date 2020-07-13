@@ -103,6 +103,20 @@ mpg %>%
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+
+#The problem here is that geom_smooth() is inheriting the data from the ggplot() function, and the aes() function that separates the data. This is what causes the geom_smooth function to create three separate lines for the three different "drv" categories.
+#By assigning mapping values within geom_smooth() [in this case, that does not assign the color aesthetic to "drv"], a smooth line is generated that ignores the higher level color category in ggplot()
+```
+
+
+```{r}
+#This is a corrected version of the graph
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(mapping = aes(x = displ, y = hwy), se = F, color = "grey40") #se = F makes it so it won't show the error in the line of fit
+
+#I also changed the color of the smooth line to a neutral grey, since the default sets it to a blue that matches one of the drv categories, which may be confusing
 ```
 
 ### Graph Fail 5
