@@ -59,8 +59,7 @@ mpg %>%
 ggplot() + 
   geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 4) +
   theme(legend.direction = "horizontal") + 
-  theme(legend.title = element_blank()) +
-  theme(legend.position = "top")
+  theme(legend.position = c(0.6,0.8))
         
 #theme(legend.position = "none") is used to remove the legend completely
 #however, I am not sure how to put the legends at 5,40
