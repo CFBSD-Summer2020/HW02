@@ -1,6 +1,6 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
+author: "Ariana Tortolani"
 date due: "7/13/2020"
 output: github_document
 ---
@@ -32,11 +32,11 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 ```{r}
 
 #ORIGINAL CODE WITH ERROR:
-#data(mpg) #this is a dataset from the ggplot2 package
+data(mpg) #this is a dataset from the ggplot2 package
 
-#mpg %>% 
-#  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
-#  geom_point()
+mpg %>% 
+  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  geom_point()
 
 #EDITED CODE:
 data(mpg) #this is a dataset from the ggplot2 package
@@ -51,8 +51,8 @@ Why aren't the points blue? It is making me blue that the points in the graph ar
 ```{r}
 
 #ORIGINAL CODE WITH ERROR:
-#ggplot(data = mpg) + 
-#  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 #EDITED CODE:
 ggplot(data = mpg, aes(x = displ, y = hwy)) + 
@@ -81,11 +81,11 @@ ANSWER:
   change legend.position = "none" to remove the plot legend entirely
 ```{r}
 #ORIGINAL CODE WITH ERROR
-#mpg %>% 
-#ggplot() + 
-#  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-#  theme(legend.direction = "horizontal") + 
-#  theme(legend.position = c(5, 40))
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(5, 40))
 
 #EDITED CODE
 mpg %>% 
@@ -108,9 +108,19 @@ ggplot() +
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+ANSWER:
+so when i removed color = dry the three different color distincts disappear and there is one smooth line going across the entire dataset.  i am not sure if there is a way to have one smooth line going across the data with it being grouped by the three different categories?
+
 ```{r}
+#ORIGINAL CODE
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+
+#EDITED CODE
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
@@ -118,13 +128,25 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
+ANSWER:
+Using color will just change the outline, by using fill you can change the entire box color.
+
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
+
+ANSWER:
+Use hjust to change the position of the text on the x axis
 
 
 ```{r}
+#ORIGINAL CODE
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
+
+#EDITED CODE
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
