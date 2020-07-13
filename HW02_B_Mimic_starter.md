@@ -68,17 +68,18 @@ file names and parts of urls together.
 
 ### Graph 4
 
-``` r
-data(mpg)
+I assume that Robert added jitter to get the extra data points, so I
+added jitter.
 
-#hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
-library(RColorBrewer)
-display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+``` r
+ggplot(mpg, aes(cty, class, color = class))+
+  geom_point() +
+  geom_jitter() +
+  geom_boxplot(alpha = 0, color = "black") +
+  scale_color_brewer(palette="Set2") +
+  xlab("Car Class") +
+  ylab("City mpg") +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class")
 ```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-The above graph lets you see some colobrlind friendly palettes. For the
-graph below, I used Set2.
-
-Now using the above mpg dataset, make this graph
