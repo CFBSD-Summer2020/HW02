@@ -89,7 +89,7 @@ mpg %>%
   geom_point(data = corvette, color = "blue") + #Makes corvette subset blue
   scale_x_continuous(limits = c(1,8), breaks = c(1:8)) + #Adjusted x-axis scale
   geom_text_repel(data = corvette, aes(label = paste0("Corvette,",year)), 
-                  nudge_x = 0.25) + #Label corvette subset and nudge to match graph*
+                  seed = set.seed(42), nudge_x = 0.25, nudge_y = -0.1) + #Label corvette subset and nudge to match* graph
   labs(title = "Corvettes are a bit of an outlier")
 ```
 
@@ -114,9 +114,10 @@ Now using the above mpg dataset, make this graph
 ```{r graph 4 code}
 mpg %>% 
   ggplot(mapping = aes(x = cty, y = class, color = class)) +
-  geom_point(position = position_dodge2(0.8)) + #Change point overlaps
+  geom_point(position = position_jitterdodge(jitter.width = 0.8,  
+             seed = set.seed(42))) + #Change point overlaps
   scale_color_brewer(palette = "Set2") + #Set color palette to Brewer Set2
-  geom_boxplot(color = "black", fill = NA, outlier.shape = NA) + #Removes outliers from boxplot and 
+  geom_boxplot(color = "black", fill = NA, outlier.shape = NA) + #Removes outliers from boxplot, removes fill, and sets outline to black
   xlab("Car Class") + ylab("City mpg") + #Label X and Y axes
   labs(title = "Horizontal BoxPlot of City MPG and Car Class") + #Adds title
   theme(axis.line = element_line(color = "black"), #Makes x and y axes black line
