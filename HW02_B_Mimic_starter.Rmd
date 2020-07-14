@@ -41,7 +41,16 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
+library(ggplot2) 
+### Not sure why, but I only seem to be able to get the code to work after including this library(ggplot2) line here even though it's called earlier in the code?
 
+ggplot(diamonds, aes(x=cut, fill=clarity)) +
+  geom_bar(position="dodge") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by type of cut quality and clarity of diamond") +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  annotate("rect", xmin=4.5, xmax=5.5, ymin=0, ymax=5000, alpha=0.4) +
+  annotate("text", x=4, y=4500, label = "My Best Diamonds, of course")
 
 ```
 
@@ -52,7 +61,12 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+data("iris")
 
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) + 
+    geom_point() + 
+    geom_smooth(method = "lm", se = FALSE, color = "black") +
+    facet_wrap(. ~ Species, scales = "free_y") 
 ```
 
 
@@ -68,8 +82,14 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
-
+```{r graph 3 code}
+set.seed(42)
+ggplot(mpg, aes(x = displ, y = hwy)) +
+    geom_point() +
+    geom_point(data = corvette, aes(x = displ, y = hwy), color = "blue") +
+    labs(title = "Corvettes are a bit of an outlier") +
+    scale_x_continuous(limits = c(1,8), breaks = c(1:8)) +
+    geom_text_repel(data=corvette, aes(label=paste("Corvette",year)))
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -91,7 +111,14 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(mpg, aes(x = class, y = cty, color = class)) +
+    coord_flip() +
+    scale_color_brewer(palette = "Set2") +
+    geom_boxplot() +
+    geom_jitter(aes(color = class)) +
+    labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg") +
+    theme(panel.border = element_blank(), panel.grid = element_blank()) +
+    theme(axis.line = element_line(color = "black"))
 ```
 
 
