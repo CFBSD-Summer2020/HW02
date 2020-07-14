@@ -37,12 +37,24 @@ mpg %>%
   geom_point()
 
 ```
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+ggplot(mpg, mapping = aes(x = cty, y = hwy, color = "blue")) + 
+  geom_point()
+```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+
+```
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -61,6 +73,27 @@ ggplot() +
 
 ```
 
+```{r}
+ggplot(mpg, aes(displ, hwy, color = class)) + 
+  # alpha designates opacity
+  # size set to 2
+  geom_point(alpha = 2, size = 2) +
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(0.6, 0.87)) +
+  # remove legend title
+  theme(legend.title = element_blank())
+
+```
+```{r}
+ggplot(mpg, aes(displ, hwy, color = class)) + 
+  # alpha designates opacity
+  # size set to 2
+  geom_point(alpha = 2, size = 2) +
+  # remove legend
+  theme(legend.position = "none")
+
+```
+
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
@@ -70,7 +103,13 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
-
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  # moving color to geom_point so that geom_smooth doesn't include it
+  geom_point(aes(color = drv)) + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+```
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
@@ -82,6 +121,12 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
-
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+  # specify boxplot color
+  geom_boxplot(color = "black") + 
+  # add a margin to axis labels
+  theme(axis.text.x = element_text(angle = 45, margin = margin(10, 0, 10, 0)))
+```
 
 
