@@ -15,7 +15,7 @@ In this document, I will add some examples of some coding mistakes, it is up to 
 
 ### First load packages
 
-It is always best to load the packages you need at the top of a script. It's another common coding formatting standard (like using the assignment operator instead of the equals sign). In this case, it helps people realize what they need to install for the script and gives an idea of what functions will be called. 
+It is always best to load the packages you need at the top of a script. It's another common coding formatting standard (like using the assignment operator instead of the equals sign). In this case, it helps people realize what they need to install for the script and gives an idea of what functions will be called.
 
 It is also best coding practice to only call the packages you use, so if you use a package but end up tossing the code you use for it, then make sure to remove loading it in the first place. For example, I could use `library("tidyverse")` but since this script will only be using ggplot2, I only load ggplot2.
 
@@ -29,20 +29,26 @@ library("magrittr") #so I can do some piping
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
+The error was to use + instead of %<%. Also, the city object was not found and as Highway is abbreviated as hwy, city should have been abbreviated to cty. Below is the corrected code.
+
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "Blue")) +
   geom_point()
 
 ```
 
+
+
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
+The color attribute needed to be kept outside the `aes()` function
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "Blue")
 
 ```
 
@@ -51,36 +57,49 @@ ggplot(data = mpg) +
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
+Alpha determines the opacity of the point. Size function is required for the bolder points.
+
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+Legend.position at (0,0) represent bottom left and (1,1) represent top right and so, to move the legend on top empty space of the graph, we can assign (0.70, 0.90). The legend title can be removed by using element_blank() function. To remove the legend completely, we need to add theme(legend.position = none)
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = c(0.70, 0.90) ) +
+  theme (legend.title = element_blank())
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+color= drv aesthetic was assigned into `aes` function and hence three different lines .
+
+As we plan to map only x and y aesthetics, the color has to be kept seperately outside the `aes()` function. Assigning "black" color function to geom_smooth method brings only one oliud line connecting all points. 
+
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+ggplot(mapping = aes(x = displ, y = hwy), color = drv) + 
   geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+  geom_smooth(se = F, color = "blue") #se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
 
+In case of assigning the same color to all boxes, we use the function "fill" instead of "color".
+
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
+
+vertical justification (vjust) tool allows to modify the distance between the X-axis label and x-axis ticks.
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty), fill = manufacturer) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
 ```
 
 
