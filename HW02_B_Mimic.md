@@ -31,6 +31,7 @@ is for. :smile:
 
 ``` r
 data("diamonds")
+ggplot()
 #hint think about the *position* the bars are in...
 ```
 
