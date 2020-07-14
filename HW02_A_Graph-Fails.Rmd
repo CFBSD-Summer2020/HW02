@@ -28,21 +28,24 @@ library("magrittr") #so I can do some piping
 ### Graph Fail 1
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
+you used % > % instead of a +. you fit it by changing it. also city is not the label so it didnt find it. needs to be corrected to cty
 
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+
+you didnt assign the blue to the points because you put it inside the parenthesis which is part of the data and its assigning blue as a label. you have to move th color = "blue" outside the inner ()
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy),  color = "blue")
 
 ```
 
@@ -52,21 +55,32 @@ ggplot(data = mpg) +
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+
+Alpha is a value 0-1 and makes the points more or less transparent.. its default is 1 but can be change to any constant 0-1. to change the size of the piont you would use the size command. 
+
+Setting coordinates for the legend requires values between 0-1. 1,1 being the top right and 0,0 bottom left. to remove the title you would assing the title as blank. so element_blank(). to remove the legend completey you would set the position to non insread of the coordinated
+
+
+
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size=2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = c(.6, .9)) +
+  theme(legend.title = element_blank())
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+take out the clor =drv code so it plots everything as one group and creates just one smooth line. 
+
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+ggplot(mapping = aes(x = displ, y = hwy, )) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
@@ -76,11 +90,12 @@ I got tired of the points, so I went to boxplots instead. However, I wanted the 
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
 
+too fill color and not just outline you will set it to fill = instead of color = , to move the label you woudl use hjust and use 0-1 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill= manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
