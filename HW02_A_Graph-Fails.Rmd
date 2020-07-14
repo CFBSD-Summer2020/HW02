@@ -32,17 +32,17 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
-mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
-  geom_point()
+ 
+  ggplot(mpg, mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point(colour = "blue")
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  ggplot(mpg, aes(x = displ, y = hwy, color = "blue")) + 
+  geom_point(colour = "blue")
 
 ```
 
@@ -55,20 +55,24 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
-
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 1, size = 2) +
+# alpha refers to the opacity of a geom 
+  theme(legend.position = "top")
+ 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
 ```{r}
+
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+  geom_smooth(aes(group = 1), se = F, color = "black", size = 1) 
+  
+
+#se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
@@ -78,9 +82,10 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill = manufacturer, alpha = 0.9)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45)) +
+  theme(axis.text.x=element_text(hjust=1))
 ```
 
 

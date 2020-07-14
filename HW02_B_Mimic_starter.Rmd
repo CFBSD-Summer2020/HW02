@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Kelly O'Leary"
 output: github_document
 ---
 
@@ -35,6 +35,14 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
+ggplot(diamonds, aes(x = cut), group = cut) +
+ geom_bar(aes(fill = clarity), position = position_dodge()) +
+ theme(legend.position = "right") +
+ labs(title="My Diamond Collection", 
+       subtitle="Boxplot representing the number of diamonds in my diamond collection by type of cut quality and clarity of diamond",
+       caption="My Best Diamonds, of course",
+       x="Diamond Cut",
+       y="Number of Diamonds")
 #hint think about the *position* the bars are in...
 ```
 
@@ -48,6 +56,13 @@ Using the diamonds dataset, make this graph:
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+ geom_point(data = subset(iris, Species %in% c("setosa", "virginica", "versicolor"))) +
+  facet_wrap(~Species) +
+  geom_smooth(aes(group = 1), method = "lm", se = F, color = "black", size = 1)
+ theme(legend.position = "right")+
+   
+ 
 ```
 
 Using the iris dataset, make this graph:
@@ -64,6 +79,13 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+  ggplot(mpg, aes(x = displ, y = hwy, color = "black")) + 
+  geom_point(aes(colour = "black")) +
+  labs(title="Corvettes are a bit of an outlier", 
+       subtitle="",
+       caption="",
+       x="Displacement",
+       y="Hightway mpg")
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
@@ -91,7 +113,10 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+data(mpg)
+ggplot(mpg, aes(x = class, y = cty) + 
+  geom_point(colour = "blue")
+  
 ```
 
 
