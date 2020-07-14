@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Xingruo Zhang"
 output: github_document
 ---
 
@@ -41,8 +41,19 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
+p1 <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  # Make bars for each cut side by side
+  geom_bar(position = "dodge") +
+  # Add titles and axis labels
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") + 
+  # Center the titles
+  theme(plot.title = element_text(hjust = 0.5)) +
+  # Text annotation for diamonds with ideal cut
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds, \n of course") +
+  # Rectangular box to highlight diamonds with ideal cut 
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.3)
 
-
+p1
 ```
 
 ### Graph 2
@@ -52,7 +63,15 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+p2 <- ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  # Add the point layer to the plot, and specify shapes by species
+  geom_point(aes(shape = Species)) + 
+  # Wrap the plots for the three species to be three horizontally parallel graphs, and adjust the vertical scale for each plot 
+  facet_wrap(. ~Species, scales = "free_y") + 
+  # Add the regression lines, turn off the standard errors, change line color to black, and make lines to be thinner
+  geom_smooth(method = 'lm', se = FALSE, color = "black", size = 0.5)
 
+p2
 ```
 
 
@@ -69,7 +88,18 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+p3 <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  # Add an extra layer of points using the corvette dataset
+  geom_point(aes(x = displ, y = hwy), corvette, color = "blue") +
+  # Add the plot title
+  labs(title = "Corvettes are a bit of an outlier") + 
+  # Bolden the plot title
+  theme(plot.title = element_text(face = "bold")) + 
+  # Add annotations for the corvette data points
+  geom_text_repel(aes(x = displ, y = hwy, label = paste0("Corvette, ", year)), corvette)
 
+p3
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -90,8 +120,23 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
 
+```{r graph 4 code}
+p4 <- ggplot(mpg, aes(x = class, y = cty)) +
+  # Add the layer of jittered points and color by class
+  geom_point(aes (color = class), position  = position_jitter()) +
+  # Add the layer of boxplots, set the boxplots to be transparent, and hide the outliers
+  geom_boxplot(fill = NA, outlier.shape = NA) +
+  # Flip the coordinates to make the boxplots horizontal
+  coord_flip() + 
+  # Add the title and the axis labels
+  labs(x = "Car Class", y = "City mpg", title = "Horizontal BoxPlot of City MPG and Car Class") +
+  # Change the color of the jittered points
+  scale_color_brewer(palette = "Set2")
+
+p4
+
+# I have a question here: are the axis labels in the sample graph in the wrong positions?
 ```
 
 
