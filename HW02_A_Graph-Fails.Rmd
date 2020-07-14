@@ -33,7 +33,8 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  # Change the '%>%' operator (which is a magrittr trick) at the end of next line to '+'
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
 
 ```
@@ -42,7 +43,8 @@ mpg %>%
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  # Simply put the 'color = "blue"' option outside aes()
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -55,9 +57,15 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  # Setting an alpha > 1 results in 100% opaque dots
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  # Coordinates of the legend are between 0 and 1, with (0, 0) being bottom-left and (1, 1) being top-right
+  theme(legend.position = c(0.67, 0.8)) +
+  # Add the following line to remove legend title
+  theme(legend.title = element_blank())
+  # Uncomment the line below and add '+' to the line above to hide the legend
+  #theme(legend.position = "none")
 
 ```
 
@@ -66,8 +74,9 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  # Put the mapping of the color aesthetic only in the point geometry
+  geom_point(mapping = aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -78,9 +87,11 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+# Map the 'fill' aesthetics instead of 'color'
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  # By default, the axis labels are aligned to their centers. Here I changed to the top-right corner of each own
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
 ```
 
 
