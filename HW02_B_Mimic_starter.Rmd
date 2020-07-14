@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "NABILAH SAMMUDIN"
 output: github_document
 ---
 
@@ -41,6 +41,14 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
+ggplot(diamonds, aes(x = cut, fill = clarity)) + 
+  geom_bar(position = "dodge") +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5), panel.background = element_rect(linetype = "solid", color = "black")) +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.4) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds, \nof course")
 
 
 ```
@@ -48,10 +56,15 @@ Using the diamonds dataset, make this graph:
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+str(iris)
 ```
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+ggplot(iris,aes(Sepal.Length, Petal.Length, shape = Species, color = Species)) +
+  geom_point() + 
+  geom_smooth(se = FALSE, method = "lm", color = "black") +
+  facet_wrap(.~Species, scales = "free_y")
 
 ```
 
