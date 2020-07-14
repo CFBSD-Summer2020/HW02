@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Jerry Lee"
 output: github_document
 ---
 
@@ -41,7 +41,17 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
+ggplot(diamonds,aes(x=cut, fill=clarity)) +
+  geom_bar(position=position_dodge()) +
+  annotate("rect", xmin=4.5, xmax=5.5, ymin=0, ymax=5000, alpha=0.2) +
+  annotate("text",x=4,y=4500, label="My Best Diamonds,
+of course") +
+  labs(title="My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by
+type of cut quality and clarity of diamond") +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
 
+  theme(plot.title = element_text(hjust = 0.5,size=13), plot.subtitle=element_text(size=11))
 
 ```
 
@@ -52,7 +62,10 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
-
+ggplot(iris, aes(Sepal.Length,Petal.Length,color=Species,shape=Species)) +
+    geom_point()+
+    facet_wrap(factor(Species,levels=c("versicolor","setosa","virginica"))~.,scales="free_y")+
+    geom_smooth(method="lm", se=FALSE, color="black")
 ```
 
 
@@ -69,7 +82,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+set.seed(42)
 
+ggplot(mpg,aes(displ,hwy,label=paste(model,year,sep = ",",collapse = NULL)))+
+  geom_point()+
+  geom_text_repel()+
+  labs(title="Corvettes are a bit of an outlier")
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -91,7 +109,16 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(mpg,aes(class,cty,color=class))+
+  coord_flip()+
+  geom_boxplot(color="black",outlier.shape=NA)+
+  geom_jitter(size=0.5)+
+  scale_color_brewer(palette="Set2")+
+  labs(title="Horizontal BoxPlot of City MPG and Car Class")+
+  xlab("Car Class") +
+  ylab("City mpg") +
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+panel.background = element_blank(), axis.line = element_line(colour = "black"))
 ```
 
 
