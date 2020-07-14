@@ -31,6 +31,13 @@ is for. :smile:
 
 ``` r
 data("diamonds")
+ggplot(diamonds, aes(x = cut, color = clarity, fill = clarity))+
+  geom_bar(position = "dodge") +
+  labs(x = "Diamond Cut", 
+       y = "Number of Diamonds", 
+       title = "My Diamond Collection", 
+       subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 #hint think about the *position* the bars are in...
 ```
 
@@ -41,6 +48,9 @@ Using the diamonds dataset, make this graph:
 
 ``` r
 data("iris")
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) +
+  geom_point() +
+  geom_smooth(se = F, method = lm, color = "black")
 ```
 
 Using the iris dataset, make this graph:
