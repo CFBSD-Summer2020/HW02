@@ -99,6 +99,7 @@ data(mpg)
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
 ```
 
 The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
@@ -108,6 +109,14 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+
+ggplot(mpg, aes(x = cty, y = class))+
+  geom_point(aes(color = class), position = position_dodge2(width = 0.7))+
+  scale_color_manual(values=brewer.pal(7,"Set2"))+
+  #alpha controls how transpant the plots are
+  geom_boxplot(alpha = 0)+
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg")
+
 
 ```
 
