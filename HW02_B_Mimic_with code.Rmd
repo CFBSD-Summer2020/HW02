@@ -81,12 +81,11 @@ Now using the mpg dataset and the corvette dataset, make this graph:
 ```{r graoh 3 code}
 ggplot(mpg, aes(displ, hwy)) +
   geom_point() +
-  geom_point(data = corvette, aes(displ, hwy), color = "blue") + #highlight only the corvette datapoints in blue
+  geom_point(data = corvette, color = "blue") + #highlight only the corvette datapoints in blue
   geom_text_repel(data = corvette, label = paste("Corvette,", corvette$year)) + #Label the highlighted datapoints using paste function.
   labs(title = "Corvettes are a bit of an outlier") + #Add plot title
   theme(plot.title = element_text(face = "bold")) + #make plot title bold
   expand_limits(x=1:8)
-
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 

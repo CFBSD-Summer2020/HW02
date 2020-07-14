@@ -43,7 +43,6 @@ Why aren't the points blue? It is making me blue that the points in the graph ar
 ```{r}
 ggplot(mpg, aes(x = displ, y = hwy)) + #move aes to ggplot, specify color in geom.
   geom_point(color = "blue")
-#Find the figure ![here] (/Users/stokamov/Box Sync/BSDG 30901_Quantitative Bio Data Camp/HW02_forked/HW02_A_Graph-Fails_files/figure-gfm/graph2_corrected)
 
 ```
 
