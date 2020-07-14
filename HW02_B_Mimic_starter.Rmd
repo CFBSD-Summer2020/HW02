@@ -41,7 +41,15 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+diamonds %>% group_by(cut)%>%
+ggplot(mapping= aes(x=cut, fill=clarity))+
+  geom_histogram(stat="count", position = "dodge2")+
+  ggtitle ("My Diamond Collection", subtitle="Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond")+
+  xlab("Diamond Cut")+
+  ylab("Number of Diamonds")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  geom_rect(xmin = "Premium",xmax=Inf,ymin=0, ymax=5000, fill = "grey", alpha= 0.05)+
+  annotate("text",x=4.5,y=4500, label="My best diamond")
 
 ```
 
