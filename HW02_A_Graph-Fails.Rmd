@@ -31,8 +31,6 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 
 > used `%>%` when should have used `+`
 
-> also, used incorrect vairable name `city` instead of `cty`
-
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
