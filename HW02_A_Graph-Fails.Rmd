@@ -33,7 +33,8 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  # the "%>%" needs to be replaced with a "+". Additionaly, the city data variable is abbreviated as "cty" in this dataset so the x value must be changed.
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
 
 ```
@@ -42,7 +43,8 @@ mpg %>%
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  #the formatting needs to change slightly. The color variable needs to be assigned outside of the aes() brackets.
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -53,11 +55,16 @@ Two mistakes in this graph. First, I wanted to make the the points slightly bold
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 ```{r}
+# alpha changes the opacity of the plot's points. Instead, using the size argument will make the desired change.
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  #the scale for moving the legend is from 0 to 1. x = 0.5 and y = 0.9 approximately centers the legend at the top.
+  theme(legend.position = c(.5, .9)) +
+  #remove the legend title with element_blank()
+  theme(legend.title = element_blank())
+    
 
 ```
 
@@ -66,7 +73,8 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+#add the "group" argument to aes() in order to have one smooth line.
+ggplot(mapping = aes(x = displ, y = hwy, color = drv, group = 1)) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
@@ -78,9 +86,11 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+#use the "fill" argument instead of the "color" argument to fill the boxplots with color instead of just changing the outline. 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  #lower the x-axis labels so that they no longer overlap the plot with the "hjust" argument.
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 

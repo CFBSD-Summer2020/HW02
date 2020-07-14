@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Olubusayo Bolonduro"
 output: github_document
 ---
 
@@ -35,6 +35,13 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
+ggplot(diamonds, aes(cut, ,fill = clarity))+
+  geom_bar(position = "dodge")+
+  labs(x = "Diamond Cut", y = "Number of Diamonds", title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5))+
+  annotate("text", x =4, y = 4500, label = "My Best Diamonds,\n of course")+
+  annotate("rect", xmin = 4.5,xmax = 5.5, ymin = 0 ,ymax = 5000, alpha = 0.35)
+  #theme(plot.subtitle = element_text(margin = ))
 #hint think about the *position* the bars are in...
 ```
 
@@ -48,11 +55,18 @@ Using the diamonds dataset, make this graph:
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+
 ```
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
 
+ggplot(iris, aes(Sepal.Length, Petal.Length, shape = Species))+
+  geom_point(aes(color = Species))+
+  facet_wrap(~ Species, scales = "free_y")+
+  geom_smooth(method = lm, color = "black", se = F)
+#can't figure out how to change the order of the facets.
+  
 ```
 
 
@@ -69,7 +83,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
-
+ggplot(mpg)+
+  geom_point(aes(displ, hwy))+
+  geom_text_repel(data = subset(corvette), aes(displ, hwy, label = paste("Corvette,",year) ))+
+  geom_point(data = subset(corvette), aes(displ, hwy), color ="blue")+
+  labs(title = "Corvettes are a bit of an outlier")
+#not sure why my labels aren't the exact same as the the original. 
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -91,9 +110,13 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+ggplot(mpg, aes(cty, class, color = class))+
+  geom_boxplot(color = "black", alpha = 0)+
+  geom_jitter(width = 0)+
+  scale_color_brewer(palette = "Set2")+
+  geom_point(aes(fill = class), position = position_jitterdodge())+
+  #coord_flip()+
+  theme(panel.grid = element_blank(), panel.border = element_blank(), axis.line = element_line(color = "black"))+
+  labs(x = "Car Class", y = "City mpg", title = "Horizontal BoxPlot of City MPG and Car Class")
+#For some reason the general shape of my data looks the same but individual data points look different.
 ```
-
-
-
-
