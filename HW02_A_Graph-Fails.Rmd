@@ -1,6 +1,6 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
+author: "Lucas Dyer"
 date due: "7/13/2020"
 output: github_document
 ---
@@ -33,7 +33,7 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
 
 ```
@@ -41,8 +41,9 @@ mpg %>%
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+
+ggplot(data = mpg, aes(displ, hwy)) + 
+  geom_point(colour = "blue")
 
 ```
 
@@ -52,22 +53,28 @@ ggplot(data = mpg) +
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+The alpha refers to something's transparency. It is a scale from 0-1, so setting it to 2 should render it fully opaque
+To remove the plot legend entirely, you would use theme(legend.position = "none")
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = c(.6, .80))+
+  theme(legend.title = element_blank())
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
+This is happening because the color aesthetic was too far up the hierarchy. Applying it to only the point layer fixes this
+
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color=drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -78,9 +85,10 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill=manufacturer)) + 
   geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+  theme(axis.text.x = element_text(angle = 45,))+
+  theme(axis.text.x = element_text(vjust=0.6))
 ```
 
 
