@@ -79,7 +79,12 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
-
+mpg %>% 
+  ggplot(aes(displ, hwy)) +
+  geom_point(color = ifelse(mpg$hwy > 22 & mpg$displ > 5.5, "blue", "black")) + #ifelse() allows for only the outliers to be highlighted in blue
+  geom_text_repel(data = corvette, aes(label = paste(model, year, sep = ",")), segment.alpha = 0) +
+  labs(title = "Corvettes are a bit of an outlier")
+#Not sure how to force "corvette" to be capitalized
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
