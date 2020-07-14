@@ -7,9 +7,7 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-```{r}
-str(diamonds)
-```
+
 
 
 ```{r load libraries, echo = TRUE, include=TRUE}
@@ -45,7 +43,7 @@ data("diamonds")
 
 
 Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
+```{r graph1 code, echo=TRUE}
 ggplot(data=diamonds, mapping=aes(x=cut, fill=clarity))+ geom_bar(position="dodge")+labs(y="Number of Diamonds", x="Diamond Cut", title="My Diamond Collection", subtitle= "Boxplot representing the number of diamonds in my diamond collection by \n type of cut quality and clarity of diamond")+theme(plot.title=element_text(hjust=0.5))+annotate("rect", xmin=4.5, xmax=5.5, ymin=0, ymax=5000, alpha=0.2)+annotate("text", x=4, y=4500,label="My Best Diamonds,\n of course")
 
 ```
@@ -56,11 +54,11 @@ ggplot(data=diamonds, mapping=aes(x=cut, fill=clarity))+ geom_bar(position="dodg
 ```
 
 Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
+```{r graph 2 code, echo=TRUE}
 data("iris")
 ggplot(data=iris, mapping=aes(x=Sepal.Length, y=Petal.Length,group=Species))+geom_point(aes(shape=Species, color=Species))+facet_wrap(~Species,scales='free_y')+geom_smooth(method='lm', color="black", se=FALSE)
 ```
-#Not sure how to change the order of the graphs.
+Not sure how to change the order of the graphs.
 
 
 ### Graph 3
@@ -75,11 +73,9 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graph 3 code}
+```{r, echo = TRUE}
 ggplot(data=mpg, mapping=aes(x=displ, y=hwy,))+geom_point()+labs(title="Corvettes are a bit of an outlier")+geom_text_repel(data = corvette, label = paste("Corvette,", corvette$year))+geom_point(data=corvette, color="blue")
 ```
-
-There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
 
 
 ### Graph 4 
@@ -97,10 +93,17 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
-ggplot(data=mpg, mapping=aes(x=cty, y=class, color=class))+geom_boxplot(color="black",show.legend=FALSE)+geom_point()+geom_jitter()+scale_color_brewer(palette="Set2")+labs(title="Horizontal BoxPlot of City MPG and Car Class", x= "City MPG", y= "Car Class")+theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())
+```{r echo=TRUE}
+ggplot(data=mpg, mapping=aes(x=cty, y=class, color=class))+geom_boxplot(color="black",show.legend=FALSE)+geom_point()+geom_jitter()+scale_color_brewer(palette="Set2")+labs(title="Horizontal BoxPlot of City MPG and Car Class", x= "City MPG", y= "Car Class")+theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank(), panel.border=element_blank(), axis.line=element_line(color="black"))
 ```
-#It seems like I have a lot more points than the example graph, not sure what I need to do to make it match the example.
+
+Not sure how to set the x-axis tick lines by counts of 5.
 
 
+### Original Graphs
 
+
+![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)
+![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-4-1.png)
+![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-6-1.png)
+![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)
