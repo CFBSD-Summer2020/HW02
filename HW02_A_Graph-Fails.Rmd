@@ -15,7 +15,7 @@ In this document, I will add some examples of some coding mistakes, it is up to 
 
 ### First load packages
 
-It is always best to load the packages you need at the top of a script. It's another common coding formatting standard (like using the assignment operator instead of the equals sign). In this case, it helps people realize what they need to install for the script and gives an idea of what functions will be called. 
+It is always best to load the packages you need at the top of a script. It's another common coding formatting standard (like using the assignment operator instead of the equals sign). In this case, it helps people realize what they need to install for the script and gives an idea of what functions will be called.
 
 It is also best coding practice to only call the packages you use, so if you use a package but end up tossing the code you use for it, then make sure to remove loading it in the first place. For example, I could use `library("tidyverse")` but since this script will only be using ggplot2, I only load ggplot2.
 
