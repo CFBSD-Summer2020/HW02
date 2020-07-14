@@ -21,8 +21,6 @@ theme_set(theme_bw()) #I'll give you this one, you can set the theme individuall
 
 #for graph 3:
 library("ggrepel")
-
-
 ```
 
 ## HW02 Part B
