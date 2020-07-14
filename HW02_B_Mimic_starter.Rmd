@@ -27,9 +27,7 @@ library("ggrepel")
 
 ## HW02 Part B
 
-For this part of the HW, the goal is to try to recreate the graphs I make from scratch. I will only provide the MD, not the actual code I used to create it besides which data I use to create it. The rest will be up to you. 
-
-Try for all 4, but if you are struggling don't worry about it. Try your best for each, if you don't get everything that's what the peer-review is for. :smile:
+My submission for this part! I welcome any feedback!
 
 
 ### Graph 1
