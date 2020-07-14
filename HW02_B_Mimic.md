@@ -32,15 +32,31 @@ is for. :smile:
 ``` r
 data("diamonds")
 #hint think about the *position* the bars are in...
+
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  #1D plot, position is side-to-side
+  geom_bar(position = "dodge") +
+  #Adding in rectangle shape
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.4) +
+  #Adding in a text box
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds, \nof course") +
+  #Adding all of the labels
+  labs(x="Diamond Cut", y= "Number of Diamonds", title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by type of cut and clarity of diamond")
+
 ```
 
-Using the diamonds dataset, make this graph:
-![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+```{r graph1 code, echo=FALSE}
 
 ### Graph 2
 
 ``` r
 data("iris")
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "black", se = F, formula = y~x)
+
+
 ```
 
 Using the iris dataset, make this graph:
