@@ -29,11 +29,22 @@ library("magrittr") #so I can do some piping
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
+
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
   ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  geom_point()
+
+```
+
+### Corrected Graph 1
+
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+  ggplot(mpg, aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
 
 ```
@@ -46,7 +57,15 @@ ggplot(data = mpg) +
 
 ```
 
+**The attribute *color = "blue"* is in the function aes(), so it is treated as another aesthetic, or a variable, but it is supposed to be an attribute.**
 
+### Corrected Graph 2
+
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+```
 
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
@@ -61,6 +80,31 @@ ggplot() +
 
 ```
 
+**The attribute *alpha* is a value between 0 and 1, and it sets opacity of the point. Setting it to 2 is meaningless. You can set the attribute *size* to make the point bigger.** 
+
+**We set position of legend by setting a point pair where values of x and y are between 0 and 1, not following the text on the axis. Setting *legend.title = element_blank()* removes legend title, and setting *legend.position = "none"* removes legend.**
+
+### Corrected Graph 3 - Legend on the Top Without Title
+
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(0.67, 0.86), legend.title = element_blank())
+
+```
+
+### Corrected Graph 3 - No Legend
+
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  theme(legend.position = "none")
+
+```
+
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
@@ -68,6 +112,17 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+```
+
+**"aes(color = drv)" was set after mapping, so that geometries in both *point* and *smooth* layer were grouped according to *drv*. To solve this problem, we can move "aes(color = drv)" to the point layer so that there will be only one curve on the smooth layer.**
+
+### Corrected Graph 4
+
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -81,6 +136,18 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
+```
+
+**The aesthetic *color* is used to set color of the outline, while *fill* is used for the inside.**
+
+**We can adjust position of x axis labels by adding "vjust = ". Here "vjust = 0.7" is sufficient.**
+
+### Corrected Graph 5
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
 ```
 
 
