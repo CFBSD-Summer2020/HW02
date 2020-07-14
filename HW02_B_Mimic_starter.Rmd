@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Idongesit Ekpo"
 output: github_document
 ---
 
@@ -35,6 +35,8 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
+ggplot(diamonds, aes(cut, seq(1,53940), fill=clarity))+
+geom_bar(position= position_dodge(), stat= "identity")
 #hint think about the *position* the bars are in...
 ```
 
@@ -68,7 +70,12 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graph 3 code}
+ggplot()+
+  geom_point(mpg, mapping=aes(displ,hwy))+
+  geom_point(corvette, mapping= aes ( displ, hwy, color= 'blue'))+
+  labs(title="Corvettes are a bit of an outlier", x= "displ", y="hwy")+
+  theme(legend.position= "none")
 
 ```
 
@@ -91,6 +98,11 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ ggplot(mpg, aes(cty, class, color=class))+
+  geom_boxplot(color= "black")+
+  geom_jitter(shape=19, position=position_jitter(0.1))+
+  labs(title= "Horizontal BoxPlot of City MPG and Car Class", x= "Car Class", y= "City mpg")+
+  theme(panel.grid.major= element_blank(),panel.grid.minor= element_blank(), panel.border= element_blank(), axis.line= element_line(colour="black"))
 
 ```
 
