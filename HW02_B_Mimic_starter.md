@@ -1,17 +1,10 @@
----
-title: "HW02_B_Graph-Mimic"
-author: "Andrea Watson"
-output: github_document
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
+HW02\_B\_Graph-Mimic
+================
+Andrea Watson
 
 ## HW02 Part B
 
-
-```{r load libraries, echo = TRUE, include=T}
+``` r
 library("ggplot2")
 library("magrittr")
 data("diamonds")
@@ -23,14 +16,13 @@ theme_set(theme_bw())
 library("ggrepel")
 ```
 
-
 ### Graph 1
-```{r, echo = T, include = TRUE}
+
+``` r
 data("diamonds")
 ```
 
-
-```{r graph1 code, echo=TRUE}
+``` r
 diamonds %>% 
   ggplot(mapping = aes(x = cut, fill = clarity)) +
   geom_bar(position = "dodge")  +
@@ -42,13 +34,15 @@ diamonds %>%
   annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\n of course")
 ```
 
+![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)<!-- -->
+
 ### Graph 2
-```{r, echo = T, include = TRUE}
+
+``` r
 data("iris")
 ```
 
-
-```{r graph 2 code, echo=TRUE}
+``` r
 iris$Species <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
 
 # The above changes the order to matchthe example, but I can't figure out how to have the correct colors and shapes for the correct groups.
@@ -60,8 +54,11 @@ iris %>%
   geom_smooth(method="lm", se=FALSE, color = "black")
 ```
 
+![](HW02_B_Mimic_starter_files/figure-gfm/graph%202%20code-1.png)<!-- -->
+
 ### Graph 3
-```{r, echo = TRUE}
+
+``` r
 data("mpg")
 corvette <- mpg[mpg$model == "corvette",]
 #install
@@ -69,8 +66,7 @@ require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
-
-```{r graph 3 code, echo=TRUE}
+``` r
 mpg$model_year <- paste(paste(toupper(substr(mpg$model, 1,1)), substr(mpg$model, 2, 8), sep=""), mpg$year, sep = ",")
 
 mpg_corvette <- mpg %>% 
@@ -85,16 +81,20 @@ mpg %>%
   scale_x_continuous(limits = c(1,8), breaks = seq(1, 8, by = 1))
 ```
 
+![](HW02_B_Mimic_starter_files/figure-gfm/graph%203%20code-1.png)<!-- -->
 
-### Graph 4 
-```{r, echo = T}
+### Graph 4
+
+``` r
 data(mpg)
 
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T)
 ```
 
-```{r graph 4 code, echo=TRUE}
+![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
 mpg %>%
   ggplot(mapping = aes(x = class, y = cty)) +
   geom_point(aes(color = class)) +
@@ -105,3 +105,5 @@ mpg %>%
   ylab("Car Class") +
   xlab("City mpg")
 ```
+
+![](HW02_B_Mimic_starter_files/figure-gfm/graph%204%20code-1.png)<!-- -->
