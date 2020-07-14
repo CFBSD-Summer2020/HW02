@@ -37,8 +37,6 @@ message tells you)
 
 > used `%>%` when should have used `+`
 
-> also, used incorrect vairable name `city` instead of `cty`
-
 ``` r
 data(mpg) #this is a dataset from the ggplot2 package
 
@@ -53,6 +51,8 @@ mpg %>%
 
 Why aren’t the points blue? It is making me blue that the points in the
 graph aren’t blue :\`(
+
+> setting a constant color for all points should be done outside of aes.
 
 ``` r
 ggplot(data = mpg) + 
@@ -69,7 +69,7 @@ alpha do and what does setting it to 2 do? What could be done instead if
 I want the points slightly bigger?
 
 > alpha is the opacity value, with 0 being totally transparent and 1
-> being opaque.
+> being opaque. Setting it to 2 gives an error.
 
 Second, I wanted to move the legend on top of the graph since there
 aren’t any points there, putting it at approximately the point/ordered
@@ -79,8 +79,8 @@ completely?
 
 > the following demonstrates how to move the legend so it is
 > approximately centered on the (5, 40) point on the plot, and how to
-> remove the legend title. To remove the legend entirely, you could add
-> `+ theme(legend.position = "none")`
+> remove the legend title. To remove the legend entirely, you could also
+> add `+ theme(legend.position = "none")`
 
 ``` r
 mpg %>% 
@@ -100,8 +100,9 @@ relationship here. But that’s not happening. Instead I’m getting 3
 lines, why and fix it please?
 
 > you were getting 3 different lines because you specified to color by
-> drv globally, so geom\_smooth was being divides up/colored by drv. You
-> can fix this by coloring by drv for geom\_point only.
+> drv globally, so geom\_smooth was being colored by drv and therefore
+> divided innto 3 different lines. You can fix this by coloring by drv
+> for geom\_point only.
 
 ``` r
 mpg %>% 
