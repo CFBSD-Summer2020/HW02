@@ -8,39 +8,29 @@ output: github_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+## HW02 Part B
 
-```{r load libraries, echo = TRUE, include=TRUE}
+
+```{r load libraries, echo = TRUE, include=T}
 library("ggplot2")
-library("magrittr") #so I can do some piping
+library("magrittr")
 data("diamonds")
 data("mpg")
 data("iris")
-theme_set(theme_bw()) #I'll give you this one, you can set the theme individually for graphs
-#or you can set the theme for all the graphs using theme_set()
-#theme_bw() is best theme (IMO)
+theme_set(theme_bw())
 
 #for graph 3:
 library("ggrepel")
-
-
 ```
-
-## HW02 Part B
-
-For this part of the HW, the goal is to try to recreate the graphs I make from scratch. I will only provide the MD, not the actual code I used to create it besides which data I use to create it. The rest will be up to you. 
-
-Try for all 4, but if you are struggling don't worry about it. Try your best for each, if you don't get everything that's what the peer-review is for. :smile:
 
 
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
-#hint think about the *position* the bars are in...
 ```
 
 
-Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
+```{r graph1 code, echo=TRUE}
 diamonds %>% 
   ggplot(mapping = aes(x = cut, fill = clarity)) +
   geom_bar(position = "dodge")  +
@@ -57,8 +47,8 @@ diamonds %>%
 data("iris")
 ```
 
-Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
+
+```{r graph 2 code, echo=TRUE}
 iris$Species <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
 
 # The above changes the order to matchthe example, but I can't figure out how to have the correct colors and shapes for the correct groups.
@@ -70,9 +60,7 @@ iris %>%
   geom_smooth(method="lm", se=FALSE, color = "black")
 ```
 
-
 ### Graph 3
-You'll need the information in this first box to create the graph
 ```{r, echo = TRUE}
 data("mpg")
 corvette <- mpg[mpg$model == "corvette",]
@@ -81,9 +69,8 @@ require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
-Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graph 3 code}
+```{r graph 3 code, echo=TRUE}
 mpg$model_year <- paste(paste(toupper(substr(mpg$model, 1,1)), substr(mpg$model, 2, 8), sep=""), mpg$year, sep = ",")
 
 mpg_corvette <- mpg %>% 
@@ -98,25 +85,16 @@ mpg %>%
   scale_x_continuous(limits = c(1,8), breaks = seq(1, 8, by = 1))
 ```
 
-There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
-
 
 ### Graph 4 
 ```{r, echo = T}
 data(mpg)
 
-#hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
-display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+display.brewer.all(colorblindFriendly = T)
 ```
 
-The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
-
-
-
-Now using the above mpg dataset, make this graph
-
-```{r graph 4 code}
+```{r graph 4 code, echo=TRUE}
 mpg %>%
   ggplot(mapping = aes(x = class, y = cty)) +
   geom_point(aes(color = class)) +
@@ -126,10 +104,4 @@ mpg %>%
   ggtitle("Horizontal BoxPlot of City MPG and Car Class") +
   ylab("Car Class") +
   xlab("City mpg")
-
-  
 ```
-
-
-
-

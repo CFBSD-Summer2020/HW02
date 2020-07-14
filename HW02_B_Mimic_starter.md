@@ -2,39 +2,38 @@ HW02\_B\_Graph-Mimic
 ================
 Andrea Watson
 
+## HW02 Part B
+
 ``` r
 library("ggplot2")
-library("magrittr") #so I can do some piping
+library("magrittr")
 data("diamonds")
 data("mpg")
 data("iris")
-theme_set(theme_bw()) #I'll give you this one, you can set the theme individually for graphs
-#or you can set the theme for all the graphs using theme_set()
-#theme_bw() is best theme (IMO)
+theme_set(theme_bw())
 
 #for graph 3:
 library("ggrepel")
 ```
 
-## HW02 Part B
-
-For this part of the HW, the goal is to try to recreate the graphs I
-make from scratch. I will only provide the MD, not the actual code I
-used to create it besides which data I use to create it. The rest will
-be up to you.
-
-Try for all 4, but if you are struggling don’t worry about it. Try your
-best for each, if you don’t get everything that’s what the peer-review
-is for. :smile:
-
 ### Graph 1
 
 ``` r
 data("diamonds")
-#hint think about the *position* the bars are in...
 ```
 
-Using the diamonds dataset, make this graph:
+``` r
+diamonds %>% 
+  ggplot(mapping = aes(x = cut, fill = clarity)) +
+  geom_bar(position = "dodge")  +
+  ggtitle(label = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond") + 
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("Diamond Cut") +
+  ylab("Number of Diamonds") +
+  annotate("rect", xmin=4.5, xmax=5.5, ymin=0, ymax=5000, alpha=0.25) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\n of course")
+```
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)<!-- -->
 
 ### Graph 2
@@ -43,12 +42,21 @@ Using the diamonds dataset, make this graph:
 data("iris")
 ```
 
-Using the iris dataset, make this graph:
+``` r
+iris$Species <- factor(iris$Species, levels = c("versicolor", "setosa", "virginica"))
+
+# The above changes the order to matchthe example, but I can't figure out how to have the correct colors and shapes for the correct groups.
+
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap(~Species, scales="free_y") +
+  geom_smooth(method="lm", se=FALSE, color = "black")
+```
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%202%20code-1.png)<!-- -->
 
 ### Graph 3
-
-You’ll need the information in this first box to create the graph
 
 ``` r
 data("mpg")
@@ -58,29 +66,44 @@ require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
-Now using the mpg dataset and the corvette dataset, make this graph:
+``` r
+mpg$model_year <- paste(paste(toupper(substr(mpg$model, 1,1)), substr(mpg$model, 2, 8), sep=""), mpg$year, sep = ",")
+
+mpg_corvette <- mpg %>% 
+             subset(model=="corvette")
+
+mpg %>% 
+  ggplot(mapping = aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_point(data = mpg_corvette, color="blue") +
+  geom_text_repel(data = mpg_corvette, aes(label=model_year)) +
+  ggtitle("Corvettes are a bit of an outlier") +
+  scale_x_continuous(limits = c(1,8), breaks = seq(1, 8, by = 1))
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%203%20code-1.png)<!-- -->
-
-There is a trick to getting the model and year to print off together.
-`paste()` is a useful function for this, also pasting together parts of
-file names and parts of urls together.
 
 ### Graph 4
 
 ``` r
 data(mpg)
 
-#hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
-display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+display.brewer.all(colorblindFriendly = T)
 ```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-The above graph lets you see some colobrlind friendly palettes. For the
-graph below, I used Set2.
-
-Now using the above mpg dataset, make this graph
+``` r
+mpg %>%
+  ggplot(mapping = aes(x = class, y = cty)) +
+  geom_point(aes(color = class)) +
+  geom_boxplot(alpha=0) +
+  coord_flip() +
+  scale_colour_manual(values=brewer.pal(7, "Set2")) +
+  ggtitle("Horizontal BoxPlot of City MPG and Car Class") +
+  ylab("Car Class") +
+  xlab("City mpg")
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%204%20code-1.png)<!-- -->
