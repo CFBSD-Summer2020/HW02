@@ -106,7 +106,20 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+mpg %>% 
+  ggplot(aes(x = class, y = cty)) +
+  geom_jitter(aes(fill = class, color = class), height = 0) + #This specific jitter will only allow for the vertical movement of the dots, mimicing what is seen in the example
+  geom_boxplot(alpha = 0) + #alpha() is important to see points through boxes
+  coord_flip() + #to make the boxplot horizontal
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black") # This creates the theme without gridlines and the non-axis borders (would this be a good object to save for future use?)
+    ) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class", y = "City mpg") +
+  scale_color_brewer(palette = "Set2") # COlorblind palette
+  
 ```
 
 
