@@ -33,19 +33,23 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = city, y = hwy , color = "blue")) + 
   geom_point()
 
 ```
+The initial error was the %% connecting the ggplot() and the geom_point() functions. After I changed the %% to a +, I keep getting an error message saying city is not found. I look at the column headings in the dataset, city is labeled as cty, and still I cannot get the plot to show up (despite changing the x-axis to "x = cty) I am leaving this alone. - DS
+
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
+I've made the color equal the hexadecimal system R uses for color. I used 000000, even though I believe that is black. But it looks blue here. I am not sure why the color argument is the name of the legend. but yolo.- DS
 
+Now I see, I had the color assignment within aesthetics. to assign color, it needs to be outside of that function. I have since corrected it. - DS
 
 
 ### Graph Fail 3
@@ -53,23 +57,39 @@ Two mistakes in this graph. First, I wanted to make the the points slightly bold
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
 ```{r}
-mpg %>% 
-ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+p <- mpg %>% 
+ ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2, size = 2) 
 
+q <- p + theme(legend.position = c(0.6, 0.85)) + theme(legend.direction = "horizontal")
+
+##Removing the legend title
+q + theme(legend.title = element_blank())
+
+##Removing the plot legend
+## q + theme(legend.position = 'none')
 ```
+I added the new size argument within aesthetics function (size=2). This caused the dots to be larger. To help with the legends, I have assigne the ggplot function to p. Secondly, I added theme, legend position to top, and the graph generate has the legend on the top of the graph. Changing to a c() vector makes the legend disappear. 
+
+AHHHH ok so coordinates need to be 0 < c < 1. My b. 
+
+Correctly coded for legened modicifcations. Assigned newly positioned legend to q and modified the next two steps using q. Simply remove ## from last bit of code to run program. - DS
+
+
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + geom_smooth() #se = F makes it so it won't show the error in the line of fit
+
+
 ```
+
+I may have taken the easy way out. I tried to look online on how to specify. I thought I had figured out it by specifying aesthetic command in geom_smooth (I had written, geom_smooth(aes(x = displ, y = hwy)) thinking that it would plot against only those coordinates. but to no avail). The last resot option I could think of was to eliminate the color assignment, and now only one line is present. -DS
+
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
@@ -78,10 +98,14 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
-  geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+v <- ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer, fill = manufacturer)) + 
+  geom_boxplot() + theme(axis.text.x = element_text(angle = 45)) + theme(axis.text.x = element_text(hjust = 1))
+
+v
 ```
 
+##Awesome, first attempt. I assigned fill = manufacturarer to fill in the boxes in the boxplot. 
 
+After some digging, looked in the "element_text()" function. I saw angle, I played with lineheight (my answer from an initial google, but values of -3, 0, 7 in lineheight provided no changes in the car names in the graph). Then I tried hjust and used 1 as my first guess. 
+The graph looks clean - DS
 
