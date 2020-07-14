@@ -41,8 +41,12 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
-
+diamonds %>% 
+  ggplot(aes(x = cut, fill = clarity)) +
+  geom_bar(stat = "count", position = "dodge") + # stat argument allows for the y axis to count total number of cases #default of position is #stack, which is not what we want. Dodge will create this staggered looking bar plot
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") + # using " \n " causes a line break in the subtitle
+  theme(plot.title = element_text(hjust = 0.5, size = 20), plot.subtitle = element_text(size = 16))
+#I am struggling to add the rectangle and text over the "Ideal" bars - any advice?
 ```
 
 ### Graph 2
