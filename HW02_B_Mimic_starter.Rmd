@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Olubusayo Bolonduro"
 output: github_document
 ---
 
