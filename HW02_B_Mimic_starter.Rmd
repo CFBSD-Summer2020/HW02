@@ -56,7 +56,13 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
-
+iris %>% 
+  ggplot(aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap(vars(Species), scales = "free_y") + #I tried using scales with facet_grid() first and it did not work. I wonder why?
+  geom_smooth(method = "lm",formula = y ~ x, se = FALSE, color = "black") #method = loess (which is the default) does not give the desired line,
+#so I changed it to something that did. Do I understand why? No
+#I am also not sure how to reorder the species. the "versicolor" facet need to be swapped with the "setosa"
 ```
 
 
