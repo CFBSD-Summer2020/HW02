@@ -42,6 +42,13 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
 
+diamonds %>% 
+ggplot() + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond", x = "Diamond cut", y = "Number of Diamonds") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold")) +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.2) +
+  annotate("text", x = 4, y = 4500, label = "My best diamonds,\nof course")
 
 ```
 
@@ -52,7 +59,12 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
-
+iris$Species <- factor(iris$Species, levels = c("versicolor","setosa","virginica"))
+iris %>% 
+ggplot(mapping = aes(x = Sepal.Length, y = Sepal.Width)) + 
+  geom_point(aes(shape = Species, color = Species)) + 
+  facet_wrap(~Species) +
+  geom_smooth(method = "lm", color = "black", se = F)
 ```
 
 
@@ -68,8 +80,13 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
-
+```{r graph 3 code}
+ggplot(mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "black")+
+  geom_point(data = corvette, mapping = aes(x = displ, y = hwy), color = "blue") +
+  geom_text_repel(data = corvette, mapping = aes(x = displ, y = hwy, label = paste("Corvette", year, sep = ","))) +
+  ggtitle("Corvettes are a bit of an outlier")
+           
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -78,7 +95,6 @@ There is a trick to getting the model and year to print off together. `paste()` 
 ### Graph 4 
 ```{r, echo = T}
 data(mpg)
-
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
@@ -91,6 +107,14 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+
+ggplot(data = mpg, mapping = aes(x = class, y = cty)) + 
+  geom_point(mapping = aes(color = class), position = position_jitter()) +
+  geom_boxplot(outlier.shape = NA, alpha = 0)+
+  coord_flip()+
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "City mpg", y = "Car Class") +
+  scale_color_brewer(palette = "Set2")  
+
 
 ```
 
