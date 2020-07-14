@@ -42,6 +42,10 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
 
+ggplot(diamonds, aes(cut))+
+  geom_bar ((aes(color=clarity, fill = clarity)), position = "dodge")+
+  labs(y="Number of Diamonds", x="Diamond Cut", title="My Diamond Collection", subtitle="Boxplot representing the number of diamonds in my diamond collection by \ntype of cut and clarity of diamond")+
+  theme(plot.title = element_text(hjust=0.5))
 
 ```
 
@@ -52,7 +56,12 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
-
+iris$Species2 <-factor(iris$Species, levels=c("versicolor", "setosa", "virginica"))
+ggplot(iris, aes(Sepal.Length, Petal.Length))+
+  geom_point(aes(color=Species, shape=Species))+
+  facet_wrap(~Species2, scales = "free_y")+
+  geom_smooth(method=lm,se=FALSE, color="black")
+  
 ```
 
 
@@ -69,6 +78,14 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+require("ggrepel")
+data("mpg")
+corvette <- mpg[mpg$model == "corvette",]
+ggplot(mpg, aes(displ,hwy))+
+  geom_point()+
+  geom_point(data=corvette, color="blue")+
+  geom_text_repel(data=corvette, aes(label=paste("Corvette,", year)))+
+  labs(title = "Corvettes are a bit of an outlier")
 
 ```
 
@@ -91,6 +108,14 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+ggplot(mpg, aes(class, cty))+
+  
+  scale_color_brewer(palette="Set2")+
+  scale_fill_brewer(palette="Set2")+
+  geom_dotplot(binaxis='y', dotsize=0.5, stackdir='center', aes( fill=class, color=class))+
+  coord_flip()+
+  geom_boxplot(alpha=0)+
+  labs(title="Horizontal BoxPlot of City MPG and Car Class", x="City mpg", y="Car Class")
 
 ```
 
