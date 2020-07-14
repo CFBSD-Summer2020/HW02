@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Shalise Burch"
 output: github_document
 ---
 
@@ -41,7 +41,13 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+ggplot(data=diamonds, aes(x =factor(cut), fill=clarity))+
+  geom_bar(position=position_dodge())+
+  xlab("Diamond Cut")+
+  ylab("Number of Diamonds")+
+  geom_rect(xmin = 3, xmax = 4.2, ymin = 12, ymax = 21,
+        alpha = .2)
+        
 
 ```
 
@@ -52,6 +58,13 @@ data("iris")
 
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+ggplot(subset(iris, Species == "setosa"),
+       aes(x=Sepal.Length, y=Petal.Length)) + 
+  scale_x_continuous(limits = c(5,8))+
+  geom_point(color="red")+
+  geom_smooth(method=lm, se=F) 
+
+
 
 ```
 
