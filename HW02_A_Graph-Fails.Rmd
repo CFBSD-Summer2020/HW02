@@ -1,9 +1,4 @@
----
-title: "What went wrong?"
-author: "Robert Gruener"
-date due: "7/13/2020"
-output: github_document
----
+# What went wrong_Idongesit Ekpo
 
 ```{r setup, include=TRUE}
 knitr::opts_chunk$set(echo = TRUE, error = TRUE)
@@ -28,21 +23,24 @@ library("magrittr") #so I can do some piping
 ### Graph Fail 1
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
+*Used __%>%__ instead of __+__. I added a __+__ to include the __geom_point__ function.
+*Misassigned the x axis component as __city__ instead of __cty__. I labelled it correctly after looking at the data. 
+*Misused __mapping()__. I deleted it and corrected the plot. 
 
 ```{r}
 data(mpg) #this is a dataset from the ggplot2 package
 
-mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mpg, aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
 
 ```
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+*Solved. Define the colour in geom_point instead. 
 ```{r}
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+ggplot(data = mpg, aes(x = displ, y = hwy)) + 
+  geom_point(color="blue")
 
 ```
 
@@ -50,37 +48,44 @@ ggplot(data = mpg) +
 
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
+*Alpha changes the transparency of the points. Setting alpha to 2 on this plot makes it appear as a point on the plot. It appears as a second legend. You have to move the mapping aesthetic to the ggplot so that alpha is not considered as an aesthetic. 
+*You can change the size of the points by defining their size under the geom_point function. 
 
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+*You may have to decrease the size of the legend so that it can fit into the c(5,40) position.
+* To remove the legend title, use _legend.title= element_blank()_
+* To remove the legend, you can set its position to "none"
+
 ```{r}
 mpg %>% 
-ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+ggplot(mapping = aes(x = displ, y = hwy, color = class)) + 
+  geom_point(alpha = 2) + 
+  theme(legend.direction = "horizontal", legend.position = "none", legend.title= element_blank())
 
 ```
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
+* You separated your points based on drv thereby creating different categories. You could combine the data so that you don't have three separate legends and categories by deleting __color = drv__
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
+* Remove the colour categorization __color = manufacturer__ to get rid of the outline. Then in the geom_boxplot function define fill as the colour of your choice. 
 
 Also, the x-axis labels were overlaping, so I rotated them. But now they overlap the bottom of the graph. How can I fix this so axis labels aren't on the graph?
-
+* Change the axis text angle to 90 degrees.
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
-  geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(fill= "pink") + 
+  theme(axis.text.x = element_text(angle = 90))
 ```
 
 
