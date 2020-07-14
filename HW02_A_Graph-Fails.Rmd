@@ -1,6 +1,6 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
+author: "Sherzod Tokamov"
 date due: "7/13/2020"
 output: github_document
 ---

@@ -1,7 +1,7 @@
 ---
 title: "HW02_B_Graph-Mimic"
 author: "Sherzod Tokamov"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -108,9 +108,9 @@ Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
 ggplot(mpg, aes(class, cty)) +
-  geom_boxplot() +
+  geom_boxplot(outlier.shape = NA) +
   coord_flip() +
-  geom_point(size= 1.5, aes(color = class), position = "jitter") +
+  geom_jitter(size= 1.5, aes(color = class), height = 0) +
   scale_color_brewer(palette = "Set2") +
   theme(axis.line = element_line(), panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   labs(x = "City mpg", y = "Car Class", title = "Horizontal BoxPlot of City MPG and Car Class")
