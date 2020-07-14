@@ -25,6 +25,8 @@ library("magrittr") #so I can do some piping
 ```
 
 
+
+
 ### Graph Fail 1
 
 What error is being thrown? How do you correct it? (hint, the error message tells you)
@@ -37,6 +39,19 @@ mpg %>%
   geom_point()
 
 ```
+### Graph Fail 1 (CORRECTED)
+# first argument of ggplot is the dataset, 'city' variable is actually cty, and to add a geom_point layer, use a '+'.
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+mpg %>% 
+  ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point()
+
+```
+
+
+
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
@@ -45,6 +60,14 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 ```
+### Graph Fail 2 (CORRECTED)
+# color goes outside of aes because it is not conveying info about the data.
+```{r}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+```
+
 
 
 
@@ -60,6 +83,21 @@ ggplot() +
   theme(legend.position = c(5, 40))
 
 ```
+### Graph Fail 3 (CORRECTED)
+# alpha values range from 0 to 1, or transparent to opaque, modifying the transparency of the data points. If you want the points to be be slightly bigger you should set shape to a higher value instead.
+#You can change legend location through the theme elements, specifying general sections of the graph or specific coordinates. In order to remove the legend completely you would use the following layer: 'theme(legend.position = "none")
+```{r}
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = (c(5, 40)) +
+  theme(legend.title = element_blank())
+
+```
+
+
+
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
@@ -70,6 +108,17 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
+### Graph Fail 4 (CORRECTED)
+#any aesthetics added to the ggplot applies to every subsequent layer. Moving the 'color = drv' to the geom_point layer allows for the desired data representation.
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes, color = drv) + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+```
+
+
+
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
@@ -82,6 +131,12 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
-
+### Graph Fail 5 (CORRECTED)
+#In order to color the boxplots, you want to use fill not color. In order to readjust the x axis, use vjust?
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+```
 
 
