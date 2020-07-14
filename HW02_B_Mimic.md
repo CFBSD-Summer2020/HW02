@@ -45,8 +45,6 @@ ggplot(diamonds, aes(x = cut, fill = clarity)) +
 
 ```
 
-```{r graph1 code, echo=FALSE}
-
 ### Graph 2
 
 ``` r
@@ -75,6 +73,12 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_point(corvette, color = "blue") +
+  labs(subtitle = "Corvettes are a bit of an outlier")
+
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
@@ -93,6 +97,15 @@ data(mpg)
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
+data(mpg)
+ggplot(mpg, aes(x = class,y = cty, color = class)) +
+  labs(x = "Car Class", y = "City mpg", title = "Horizontal BoxPlot of City MPG and Car Class") +
+  geom_boxplot(color = "black") +
+  geom_point() +
+  geom_jitter() 
+  
+
 ```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
