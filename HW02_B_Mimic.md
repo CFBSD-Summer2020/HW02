@@ -35,6 +35,19 @@ data("diamonds")
 ```
 
 Using the diamonds dataset, make this graph:
+
+``` r
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") + 
+  labs(x = "Diamond Cut", 
+       y = "Number of Diamonds", 
+       title = "My Diamond Collection" , 
+      subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") + 
+  annotate(geom = "text", label = "My Best Diamonds,\n \t\t of course", x = 4, y = 4500) + 
+  annotate(geom = "rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.3) +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ### Graph 2
@@ -44,6 +57,13 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
+
+``` r
+ggplot(data = iris, mapping = aes(x = Sepal.Length, y = Petal.Length)) + 
+  geom_point(aes(color = Species, shape = Species)) +
+  facet_wrap(facets = ~factor(Species, levels = c("versicolor", "setosa", "virginica")), scales = "free_y") + 
+  geom_smooth(method = "lm", se = FALSE, color = "black") 
+```
 
     ## `geom_smooth()` using formula 'y ~ x'
 
@@ -62,6 +82,17 @@ set.seed(42)
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
+
+``` r
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = class == "2seater")) + 
+  scale_color_manual(values = c("black", "blue")) + 
+  geom_text_repel(data = corvette, mapping = aes(label = paste("Corvette,", year, sep = "")), nudge_x = 0.3) +
+  theme(legend.position = "none") + 
+  labs(title = "Corvettes are a bit of an outlier") + 
+  scale_x_continuous(limits = c(1,8), breaks = 1:8)
+```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
@@ -85,5 +116,18 @@ The above graph lets you see some colobrlind friendly palettes. For the
 graph below, I used Set2.
 
 Now using the above mpg dataset, make this graph
+
+``` r
+ggplot(data = mpg, mapping = aes(x = class, y = cty)) + 
+  geom_jitter(aes(color = class), height = 0) + 
+  geom_boxplot(fill = NA, outlier.shape = NA) + 
+  theme() + 
+  coord_flip() + 
+  theme_classic() + 
+  scale_color_brewer(palette = "Set2") + 
+  labs(x = "City mpg", 
+       y = "Car Class",
+       title = "Horizontal BoxPlot of City MPG and Car Class")
+```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
