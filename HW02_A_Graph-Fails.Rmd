@@ -74,9 +74,10 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
+#Placing the drv color aesthetic into the point geom stopped the geom_smooth from trying to add a line to three variables.
+  geom_smooth()
 ```
 
 ### Graph Fail 5
