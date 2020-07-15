@@ -54,6 +54,8 @@ Using the diamonds dataset, make this graph:
 ``` r
 data("iris")
 
+#i figured out facet_wrap but I am certainly not going to rearange the entire dataframe just to get setosa and versicolor to swtich spots. I wont do it!!!
+
 ggplot(iris, aes(Sepal.Length, Petal.Length, color=Species, shape=Species)) +
   geom_point() + 
   geom_smooth(method = "lm", se=F, color = "black") +
@@ -75,12 +77,18 @@ data("mpg")
 
 corvette <- mpg[mpg$model == "corvette",]
 
-label <- paste(corvette$model,corvette$year)
+label <- paste("Corvette" ,corvette$year, sep=", ")
+
+set.seed(42)
 
 ggplot(mpg, aes(displ, hwy)) +
-  geom_point() +
-  geom_point(data=corvette, aes(displ, hwy), color ="blue")+
-  geom_text(data=corvette, aes(label=label),hjust=0, vjust=0)
+  geom_point(size=.75) +
+  geom_point(data=corvette, aes(displ, hwy), color ="blue", size=.75)+
+  geom_text_repel(data=corvette, aes(label=label), size = 3) +
+  labs(subtitle="Corvettes are a bit of an outlier")+
+  theme(plot.subtitle = element_text(size=12))
+ 
+  
   
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
