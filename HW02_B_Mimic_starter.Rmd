@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Althea Bock-Hughes"
 output: github_document
 ---
 
@@ -61,8 +61,10 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
+
+**I figured out facet_wrap, but I am certainly not going to rearange the entire dataframe just to get setosa and versicolor to swtich spots. I wont do it!!!**
+
 ```{r graph 2 code, echo=FALSE}
-#I figured out facet_wrap, but I am certainly not going to rearange the entire dataframe just to get setosa and versicolor to swtich spots. I wont do it!!!
 
 ggplot(iris, aes(Sepal.Length, Petal.Length, color=Species, shape=Species)) +
   geom_point() + 

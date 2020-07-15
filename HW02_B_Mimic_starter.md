@@ -1,6 +1,6 @@
 HW02\_B\_Graph-Mimic
 ================
-YOUR NAME HERE
+Althea Bock-Hughes
 
 ``` r
 library("ggplot2")
@@ -44,6 +44,12 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
+
+**I figured out facet\_wrap, but I am certainly not going to rearange
+the entire dataframe just to get setosa and versicolor to swtich spots.
+I wont do
+it\!\!\!**
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%202%20code-1.png)<!-- -->
 
 ### Graph 3
