@@ -1,6 +1,6 @@
 What went wrong?
 ================
-Robert Gruener
+Althea Bock-Hughes
 
 ``` r
 knitr::opts_chunk$set(echo = TRUE, error = TRUE)
