@@ -1,0 +1,37 @@
+---
+title: "HW 02"
+author: "Sherzod Tokamov"
+date: "7/13/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load libraries}
+library(ggplot2)
+library(magrittr) #so I can do some piping
+```
+
+### Graph Fail 1
+
+What error is being thrown? How do you correct it? (hint, the error message tells you)
+
+```{r}
+data(mpg) #this is a dataset from the ggplot2 package
+
+mpg %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) %>% + #change "city" to "cty"
+  geom_point()
+
+```
+
+### Graph Fail 2
+Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy)) + #move aes to ggplot, specify color in geom.
+  geom_point(color = "blue")
+```
+
+###Find the figure ![here] (/Users/stokamov/Box Sync/BSDG 30901_Quantitative Bio Data Camp/HW02_forked/HW02_A_Graph-Fails_files/figure-gfm/graph2_corrected)
