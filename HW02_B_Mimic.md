@@ -32,15 +32,29 @@ is for. :smile:
 ``` r
 data("diamonds")
 #hint think about the *position* the bars are in...
-```
 
-Using the diamonds dataset, make this graph:
-![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  #1D plot, position is side-to-side
+  geom_bar(position = "dodge") +
+  #Adding in rectangle shape
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.4) +
+  #Adding in a text box
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds, \nof course") +
+  #Adding all of the labels
+  labs(x="Diamond Cut", y= "Number of Diamonds", title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by type of cut and clarity of diamond")
+
+```
 
 ### Graph 2
 
 ``` r
 data("iris")
+
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "black", se = F, formula = y~x)
+
+
 ```
 
 Using the iris dataset, make this graph:
@@ -59,6 +73,12 @@ corvette <- mpg[mpg$model == "corvette",]
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() +
+  geom_point(corvette, color = "blue") +
+  labs(subtitle = "Corvettes are a bit of an outlier")
+
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
@@ -77,6 +97,15 @@ data(mpg)
 #hint for the coloring, colorbrewer and you can set palette colors and make your graphs colorblind friendly
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
+
+data(mpg)
+ggplot(mpg, aes(x = class,y = cty, color = class)) +
+  labs(x = "Car Class", y = "City mpg", title = "Horizontal BoxPlot of City MPG and Car Class") +
+  geom_boxplot(color = "black") +
+  geom_point() +
+  geom_jitter() 
+  
+
 ```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
