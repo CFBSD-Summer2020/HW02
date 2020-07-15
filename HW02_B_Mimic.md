@@ -109,3 +109,11 @@ graph below, I used Set2.
 Now using the above mpg dataset, make this graph
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+ggplot(mpg, aes(class, cty, color = class)) +
+  geom_boxplot() +
+  geom_jitter() +
+  coord_flip() +
+  scale_color_brewer(palette="Set2") +
+  labs(title = "Horizontal Boxplot of City MPG and Car Class", y = "City MPG", x = "Car Class")
+
