@@ -32,6 +32,17 @@ is for. :smile:
 ``` r
 data("diamonds")
 #hint think about the *position* the bars are in...
+
+ggplot(diamonds, aes(x = cut, fill = clarity)) +
+  geom_bar(position = "dodge") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by type of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") +
+  annotate(
+    "text",
+    x = 4, y = 5000,
+    label = "My Best Diamonds, of course",
+    vjust = 1, size = 3
+  )
+  
 ```
 
 Using the diamonds dataset, make this graph:
@@ -46,6 +57,11 @@ data("iris")
 Using the iris dataset, make this graph:
 
     ## `geom_smooth()` using formula 'y ~ x'
+    
+ggplot(iris, aes(Sepal.Length, Petal.Length)) +
+  geom_point(aes(shape = factor(Species), color = factor(Species))) +
+  facet_wrap("Species") +
+  geom_smooth(formula = y ~ x)
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
@@ -68,6 +84,12 @@ Now using the mpg dataset and the corvette dataset, make this graph:
 There is a trick to getting the model and year to print off together.
 `paste()` is a useful function for this, also pasting together parts of
 file names and parts of urls together.
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  geom_point(data = corvette, color = "red") +
+  geom_text(data = corvette, aes(label = paste(model, year), hjust = 1.1)) +
+  labs(title = "Corvettes are a bit of an outlier")
 
 ### Graph 4
 
