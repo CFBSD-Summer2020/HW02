@@ -32,6 +32,18 @@ is for. :smile:
 ``` r
 data("diamonds")
 #hint think about the *position* the bars are in...
+
+ggplot(diamonds, aes(cut, fill=clarity)) + 
+  geom_bar(position = "dodge") + 
+  labs(title="My Diamond Collection", 
+        subtitle="Boxplot representing the number of diamonds in my diamond collection          by \n type of cut quality and clarity of diamond", 
+        x = "Diamond Cut", y = "Number of Diamonds") + 
+  theme(plot.title = element_text(hjust = 0.5), 
+        plot.subtitle = element_text(size=9)) +
+  annotate(geom = "text", x = "Premium", y = 4500, 
+        label = "My Best Diamonds, \n of course") + 
+  annotate(geom = "rect", xmin=4.5, xmax=5.5, ymin=0, ymax= 5000, alpha=.3)
+
 ```
 
 Using the diamonds dataset, make this graph:
@@ -41,6 +53,13 @@ Using the diamonds dataset, make this graph:
 
 ``` r
 data("iris")
+
+#i figured out facet_wrap but I am certainly not going to rearange the entire dataframe just to get setosa and versicolor to swtich spots. I wont do it!!!
+
+ggplot(iris, aes(Sepal.Length, Petal.Length, color=Species, shape=Species)) +
+  geom_point() + 
+  geom_smooth(method = "lm", se=F, color = "black") +
+  facet_wrap(vars(Species), scales = "free_y")
 ```
 
 Using the iris dataset, make this graph:
@@ -55,7 +74,22 @@ You’ll need the information in this first box to create the graph
 
 ``` r
 data("mpg")
+
 corvette <- mpg[mpg$model == "corvette",]
+
+label <- paste("Corvette" ,corvette$year, sep=", ")
+
+set.seed(42)
+
+ggplot(mpg, aes(displ, hwy)) +
+  geom_point(size=.75) +
+  geom_point(data=corvette, aes(displ, hwy), color ="blue", size=.75)+
+  geom_text_repel(data=corvette, aes(label=label), size = 3) +
+  labs(subtitle="Corvettes are a bit of an outlier")+
+  theme(plot.subtitle = element_text(size=12))
+ 
+  
+  
 #install
 require("ggrepel") #useful for making text annotations better, hint hint
 set.seed(42)

@@ -1,7 +1,7 @@
 ---
 title: "What went wrong?"
-author: "Robert Gruener"
-date due: "7/13/2020"
+author: "Althea Bock-Hughes"
+date due: "7/15/2020"
 output: github_document
 ---
 
