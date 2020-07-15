@@ -6,7 +6,7 @@ title: "What went wrong?"
 >>>>>>> 2e2460a43a13b71e43eaaac7ca2ef3d8cf515c80
 author: "Bei Wang"
 date due: "7/13/2020"
-output: rmarkdown::github_document
+output: github_document
 ---
 
 ```{r setup, include=TRUE}
