@@ -35,13 +35,17 @@ data(mpg) #this is a dataset from the ggplot2 package
 mpg %>% 
   ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
   geom_point()
+#I changed "city" to "cty" and changed the pipeline symbol to a "+" 
 
 ```
+
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(mpg, aes(x = displ, y = hwy)) + geom_point(color = "blue")
+
+#I moved the "color=blue" to the point layer so that it was an attribute not an aesthetic
 
 ```
 
@@ -54,12 +58,19 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 Figure3 <- mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), size=3)
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size=3) #Alpha refers to the transperancy of the dot, so I changed it to size and placed it outside of the aesthetic to make it an atribute 
 
-Figure3
+#this is the graph with the legend (I took off your theme layers)
+Figure3 
 
+#this is the graph with the legend in the top right corner (the coordinates have to be 0-1), and you have to make the key smaller so the data isn't covered 
+Figure3 + theme(legend.key.size = unit(.75, "lines"), legend.justification=c(1,1), legend.position=c(1,1))
 
-Figure3 + theme(legend.justification=c(1,1), legend.position=c(1,1))
+#This is how you remove a legend title
+Figure3 + theme(legend.title = element_blank())
+
+#this removes all legends
+Figure3 + theme(legend.position = "none")
 ```
 ```{r}
 mpg %>% 
