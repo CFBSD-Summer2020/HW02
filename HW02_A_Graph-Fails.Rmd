@@ -30,10 +30,13 @@ library("magrittr") #so I can do some piping
 What error is being thrown? How do you correct it? (hint, the error message tells you)
 
 ```{r}
-data(mpg) #this is a dataset from the ggplot2 package
 
-mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+data(mpg) #this is a dataset from the ggplot2 package
+str(mpg)
+
+mpg %>%
+  
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + #needed a + instead of a %>%
   geom_point()
 
 ```
@@ -42,7 +45,7 @@ mpg %>%
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue") #put "blue" out of aes
 
 ```
 
@@ -55,9 +58,14 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
-  theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2) + 
+#Points can be made bigger with the size aesthetic. At 2 they're just a bit bigger.
+  theme(legend.direction = "horizontal") +
+  theme(legend.position = c(.6, .85)) +
+#The ordered pair need to be within the panel space: top right c(1,1), bottom left c(0,0). They're proportions of the space, not references to data points.
+  theme(legend.title = element_blank()) 
+#Setting an element equal to element_blank() removes it.
+#Remove the legend with: + theme(legend.position = "none")
 
 ```
 
