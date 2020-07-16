@@ -87,6 +87,19 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+data("mpg")
+corvette <- mpg[mpg$model == "corvette",]
+require("ggrepel")
+set.seed(42)
+
+str(mpg)
+
+mpg %>%
+ggplot(aes(displ, hwy)) +
+  geom_point() +
+  geom_point(data = corvette, aes(displ, hwy), color = "blue") +
+  labs(title = "Corvettes are a bit of an outlier")
+  
 
 ```
 
