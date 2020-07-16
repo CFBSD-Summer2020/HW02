@@ -37,6 +37,17 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+``` r
+ggplot(diamonds, aes(x = cut, color = clarity, fill = clarity))+
+  geom_bar(position = "dodge") +
+  annotate('rect', xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, fill = 'black', alpha = 0.25) +
+  annotate('text', x = 4, y = 4500, label = 'My Best Diamonds,\nof course') +
+  labs(x = "Diamond Cut", 
+       y = "Number of Diamonds", 
+       title = "My Diamond Collection", 
+       subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
 ### Graph 2
 
 ``` r
@@ -49,6 +60,11 @@ Using the iris dataset, make this graph:
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
+``` r
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, shape = Species, group = Species, color = Species)) +
+  geom_point() +
+  geom_smooth(se = F, method = lm, color = "black")
+```
 ### Graph 3
 
 You’ll need the information in this first box to create the graph
@@ -62,6 +78,14 @@ set.seed(42)
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
+
+``` r
+
+ggplot(mpg,aes(x = displ, y = hwy))+
+  geom_point()+
+  labs(title = 'Corvettes are a bit of an outlier')
+
+```
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
@@ -87,3 +111,18 @@ graph below, I used Set2.
 Now using the above mpg dataset, make this graph
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+``` r
+palette(Set2)
+ggplot(mpg, aes(x = class, y = cty, color = class)) +
+  geom_boxplot(color = 'black', size = 0.2, outlier.alpha = 0) +
+  scale_color_manual(values = brewer.pal(n = 7, name = "Set2")) +
+  geom_point(position = position_jitter(width = 0.4, height = 0)) +
+  coord_flip() +
+  theme(panel.grid = element_blank(),
+        panel.border = element_blank(),
+        axis.line = element_line()) +
+  labs(title = 'Horizontal BoxPlot of City MPG and Car Class',
+       x = 'Car Class',
+       y = 'City mpg')
+
+```

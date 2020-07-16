@@ -38,6 +38,15 @@ mpg %>%
 
 ```
 
+As the error message suggest, "+" should be used instead of "%>%", and the grammar of ggplot aesthetic is used in a wrong way. Moreover, the vector in which the information of city is stored was named "cty" instead of "city". The modified codes are as follows:
+```{r}
+data(mpg)
+
+ggplot(mpg, aes(cty, hwy))+
+  geom_point()
+```
+
+
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
@@ -45,7 +54,12 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 ```
-
+The points are not blue because the color attribute was not called in the right way. It should not be used in the aes() function.
+```{r}
+ggplot(mpg, aes(displ, hwy))+
+  geom_point(color = 'blue')
+```
+See, now the points are blue.
 
 
 ### Graph Fail 3
@@ -60,6 +74,22 @@ ggplot() +
   theme(legend.position = c(5, 40))
 
 ```
+Alpha is a geom element used to control opacity, so the legal value of alpha ranges from 0 (transparent) to 1 (opaque). Another geom element, size, could be adjusted to make the points slightly bigger.
+```{r}
+GF3 = ggplot(mpg, aes(displ, hwy, color = class)) + 
+        geom_point(size = 2)
+GF3
+```
+
+To change the position of the figure legend, the theme element "legend.position" has to be modified. However, "c(0,0)" and "c(1,1)" correspond to the lower-left and upper-right corners, respectively. Therefore "c(5,40)" is not the right way to position the legend box. The title can be removed using "element_blank()"
+```{r}
+GF3 + theme(legend.position = c(0.6, 0.75), legend.title = element_blank())
+```
+The legend box can be fully removed if the legend.position is set as "none".
+```{r}
+GF3 + theme(legend.position = "none")
+```
+
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
@@ -70,6 +100,15 @@ ggplot(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
+Unless otherwise specified, geom_smooth uses inherited mappings from above. In this case, only the relationship between "displ" and "hwy" is wanted, so a new mapping has to be supplied.
+
+
+```{r}
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(mapping = aes(x = displ, y = hwy), inherit.aes = F, se = F, color = 'black') #se = F makes it so it won't show the error in the line of fit
+```
+It's worth mentioning that I changed the color of the curve, since the original one was blue and was kind of confusing when there are already blue points.
 
 ### Graph Fail 5
 I got tired of the points, so I went to boxplots instead. However, I wanted the boxes to be all one color, but setting the color aesthetic just changed the outline? How can I make the box one color, not just the outline? 
@@ -82,6 +121,11 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
 ```
+By setting "fill" element, the box can be plotted as one color. As for the overlapping issue, the easiest way is to lower down the text angle to a proper value.
 
-
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer, color = manufacturer)) + 
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 18))
+```
 
