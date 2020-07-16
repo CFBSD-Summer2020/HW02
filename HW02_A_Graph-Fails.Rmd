@@ -91,7 +91,7 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)
 #Fill changes the internal color, while color changes the outline.
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
-#vjust can change the vertical justification of text. I played around with values less that 1 until it looked nice.
+#vjust can change the vertical justification of text. I played around with values less than 1 until it looked nice.
 ```
 
 
