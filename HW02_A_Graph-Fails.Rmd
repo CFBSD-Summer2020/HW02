@@ -35,7 +35,17 @@ data(mpg) #this is a dataset from the ggplot2 package
 mpg %>% 
   ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
   geom_point()
+#The issue here arises, as the error message explains, due to the use of the pipe operator " %>%  " instead of +
+#The pipe operator would place the result of the ggplot() function inside of geom_plot() function, which R cannot understand
+#You would correct this by replacing the pipe operator with " + "
+```
 
+```{r}
+#this is the corrected version
+mpg %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) +
+  geom_point()
+#the argument " x = city " was changed to " x = cty " because the original resulted in an error
 ```
 
 ### Graph Fail 2
@@ -43,9 +53,14 @@ Why aren't the points blue? It is making me blue that the points in the graph ar
 ```{r}
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
-
+#The points are not blue because the " color " argument is set as an arguement of aes(), not of geom_point()
 ```
 
+```{r}
+#This is the corrected version
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+```
 
 
 ### Graph Fail 3
@@ -55,11 +70,30 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) +
   theme(legend.direction = "horizontal") + 
   theme(legend.position = c(5, 40))
+#the " alpha " argument is used to change the transparency of data points on the graph by setting the value between 0 (fully transparent) and # 1 (fully opaque). Setting the value of alpha to 2 appears to only act as if you set the value instead of 1, fully opaque
+#If you wish to make the data points slightly bigger, you should use the " size " argument instead
 
+#To move the legend to the top of the graph, you would use the legend.position argument, as shown. However, the points use range from c(0, 0) [bottom left corner] to c(1,1) [top right corner].
+#To get rid of the title of the legend, you would use the arguement " legend.title = element_blank() "
+#To get rid of the legend entirely, you would use the argument " legend.position = "none" " 
 ```
+
+```{r}
+#This is a corrected version of the graph
+mpg %>% 
+ggplot() + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 2.5) + 
+  theme(legend.direction = "horizontal") + 
+  theme(legend.position = c(0.5, 0.9)) +
+  theme(legend.title = element_blank())
+
+#The size argument wasn used instead of the alpha argument
+#The legend was placed in the top of the graph. Some trial-and-error was required to find the right y-value (y = 1 cut off half of the legend)
+```
+
 
 ### Graph Fail 4
 I wanted just one smoothing line. Just one line, to show the general relationship here. But that's not happening. Instead I'm getting 3 lines, why and fix it please?
@@ -69,6 +103,20 @@ mpg %>%
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+
+#The problem here is that geom_smooth() is inheriting the data from the ggplot() function, and the aes() function that separates the data. This is what causes the geom_smooth function to create three separate lines for the three different "drv" categories.
+#By assigning mapping values within geom_smooth() [in this case, that does not assign the color aesthetic to "drv"], a smooth line is generated that ignores the higher level color category in ggplot()
+```
+
+
+```{r}
+#This is a corrected version of the graph
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(mapping = aes(x = displ, y = hwy), se = F, color = "grey40") #se = F makes it so it won't show the error in the line of fit
+
+#I also changed the color of the smooth line to a neutral grey, since the default sets it to a blue that matches one of the drv categories, which may be confusing
 ```
 
 ### Graph Fail 5
@@ -81,7 +129,15 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
+
+#To change all of the boxes to one color, you cannot use the argument "color" within the aes() function. Instead, it needs to be used as an argument of geom_boxplot(). However, the "color" argument will only change the color of the outline of the boxes - it would need to be used in conjunction with the "fill" argument using the same color value as the "color" argument to completely change the entire box.
+#The issue with the x-axis labels overlapping with the graph can be solved using the argument "vjust" for element_text(). Setting vjust to equal 0.7 gives a comfortable buffer between the labels and the graph.
 ```
 
 
-
+```{r}
+#This is a corrected version of the graph
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(color = "grey40", fill = "grey40") + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.7))
+```

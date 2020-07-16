@@ -37,6 +37,15 @@ data("diamonds")
 Using the diamonds dataset, make this graph:
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
+``` r
+diamonds %>% 
+  ggplot(aes(x = cut, fill = clarity)) +
+  geom_bar(stat = "count", position = "dodge") + # stat argument allows for the y axis to count total number of cases #default of position is #stack, which is not what we want. Dodge will create this staggered looking bar plot
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") + # using " \n " causes a line break in the subtitle
+  theme(plot.title = element_text(hjust = 0.5, size = 20), plot.subtitle = element_text(size = 16))
+#I am struggling to add the rectangle and text over the "Ideal" bars - any advice?
+```
+
 ### Graph 2
 
 ``` r
@@ -48,6 +57,16 @@ Using the iris dataset, make this graph:
     ## `geom_smooth()` using formula 'y ~ x'
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+
+``` r
+iris %>% 
+  ggplot(aes(Sepal.Length, Petal.Length, color = Species, shape = Species)) +
+  geom_point() +
+  facet_wrap(vars(Species), scales = "free_y") + #I tried using scales with facet_grid() first and it did not work. I wonder why?
+  geom_smooth(method = "lm",formula = y ~ x, se = FALSE, color = "black") #method = loess (which is the default) does not give the desired line,
+#so I changed it to something that did. Do I understand why? No
+#I am also not sure how to reorder the species. the "versicolor" facet need to be swapped with the "setosa"
+```
 
 ### Graph 3
 
@@ -69,6 +88,15 @@ There is a trick to getting the model and year to print off together.
 `paste()` is a useful function for this, also pasting together parts of
 file names and parts of urls together.
 
+``` r
+mpg %>% 
+  ggplot(aes(displ, hwy)) +
+  geom_point(color = ifelse(mpg$hwy > 22 & mpg$displ > 5.5, "blue", "black")) + #ifelse() allows for only the outliers to be highlighted in blue
+  geom_text_repel(data = corvette, aes(label = paste(model, year, sep = ",")), segment.alpha = 0) +
+  labs(title = "Corvettes are a bit of an outlier")
+#Not sure how to force "corvette" to be capitalized
+```
+
 ### Graph 4
 
 ``` r
@@ -87,3 +115,19 @@ graph below, I used Set2.
 Now using the above mpg dataset, make this graph
 
 ![](HW02_B_Mimic_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+``` r
+mpg %>% 
+  ggplot(aes(x = class, y = cty)) +
+  geom_jitter(aes(fill = class, color = class), height = 0) + #This specific jitter will only allow for the vertical movement of the dots, mimicing what is seen in the example
+  geom_boxplot(alpha = 0) + #alpha() is important to see points through boxes
+  coord_flip() + #to make the boxplot horizontal
+  theme(
+    panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+    panel.border = element_blank(),
+    axis.line = element_line(color = "black") # This creates the theme without gridlines and the non-axis borders (would this be a good object to save for future use?)
+    ) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class",
+       x = "Car Class", y = "City mpg") +
+  scale_color_brewer(palette = "Set2") # COlorblind palette
+```
