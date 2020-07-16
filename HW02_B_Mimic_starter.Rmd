@@ -42,9 +42,9 @@ str(diamonds)
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+data("diamonds")
 ggplot(diamonds) +
-  geom_bar(aes(x = cut, fill = clarity), position = "dodge") +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") +
   labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") +
   theme(plot.title = element_text(hjust = 0.5)) +
   annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.3) +
@@ -56,11 +56,21 @@ ggplot(diamonds) +
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+str(iris)
+mean()
 ```
 
-Using the iris dataset, make this graph:
+Usi()ng the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+data("iris")
 
+ggplot(iris, mapping = aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) +
+  geom_point() +
+  facet_wrap(~ Species, scales = "free_y") +
+  geom_smooth(method = "lm", se=FALSE, color="black", formula = y ~ x)
+  
+  
+  
 ```
 
 
