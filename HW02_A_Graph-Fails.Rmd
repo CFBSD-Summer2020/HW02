@@ -131,10 +131,16 @@ ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer
   theme(axis.text.x = element_text(angle = 45))
 ```
 
-#### My corrected graph 5:
+#### My corrected graph 5 with all boxes one color:
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(fill="#7dd1e8") + 
+  theme(axis.text.x = element_text(angle = 45, vjust=0.5))
+```
+
+#### My corrected graph 5 with the box one color with each manufacturer having diff color:
 ```{r}
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill=manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45, vjust=0.5))
 ```
-
