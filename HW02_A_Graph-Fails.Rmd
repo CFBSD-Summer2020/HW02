@@ -33,10 +33,20 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>%
   geom_point()
 
 ```
+
+# CORRECTED CODE for Graph 1
+
+```{r}
+data(mpg)
+
+ggplot(mpg,aes(cty,hwy,color = "blue"))+
+  geom_point()
+```
+
 
 ### Graph Fail 2
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
@@ -46,12 +56,29 @@ ggplot(data = mpg) +
 
 ```
 
+#CORRECTED CODE for Graph 2
+```{r}
+ggplot(mpg,aes(displ,hwy))+
+  geom_point(color="blue")
+```
 
 
 ### Graph Fail 3
 Two mistakes in this graph. First, I wanted to make the the points slightly bolder, but changing the alpha to 2 does nothing. What does alpha do and what does setting it to 2 do? What could be done instead if I want the points slightly bigger? 
 
+#ANSWER for Graph 3 - 1st mistake
+Alpha is an argument that controls the opacity of the points so setting it to 2 will make the points appear at 20% transparency. To make the points slightly bigger, I would use size instead of alpha. 
+
 Second, I wanted to move the legend on top of the graph since there aren't any points there, putting it at approximately the point/ordered pair (5, 40). How do you actually do this? Also, how do you remove the legend title ("class")? Finally, how would you remove the plot legend completely?
+
+#ANSWER for Graph 3 - 2nd mistake
+To change the legend position to the top of the graph, I can simply insert the argument value "top" in the function theme such that the code would read theme(legend.position="top"). 
+
+Another way to do this is to use a numeric vector c(x,y) as an argument in the function theme, especially if I have a very specific location where I would like the legend to appear. However, the values can only be between 0 and 1 in which c(0,0) corresponds to "bottom left" and c(1,1) corresponds to "top right". In the codes for this graph fail, the values was set to be bigger than 1 and instantly, we know that is a mistake. In this case where this person wanted to move the legend to top of the graph such that it is at approximately the point/ordered pair (5,40), he can try code theme(legend.position = c(0.60, 0.80)) and adjust it accordingly from there.
+
+To remove the legend title ("class"), code theme(legend.title = element_blank())
+
+To remove the plot legend completely, code theme(legend.position="none")
 ```{r}
 mpg %>% 
 ggplot() + 
@@ -59,6 +86,22 @@ ggplot() +
   theme(legend.direction = "horizontal") + 
   theme(legend.position = c(5, 40))
 
+```
+#CORRECTED CODE for Graph 3
+```{r}
+mpg%>%
+ggplot() +
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 3) +
+  theme(legend.direction = "horizontal") +
+  theme(legend.position = c(0.60, 0.80)) + 
+  theme(legend.title = element_blank()) #to remove legend title if desired
+
+#To remove plot legend completely
+mpg%>%
+ggplot() +
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 3) +
+  theme(legend.direction = "horizontal") +
+  theme(legend.position = "none")
 ```
 
 ### Graph Fail 4
@@ -68,6 +111,27 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 mpg %>% 
 ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
   geom_point() + 
+  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+```
+#CORRECTED CODE for Graph 4
+This person is getting 3 lines because the variable drv was assigned to a color aesthetic (showing different colors) and since there were three categories, R creates 3 lines, one for each category instead of just one line that shows the general relationship. 
+
+At first, I wasn't sure how exactly I can correct this but I found a post on stackoverflow that was really helpful!
+
+So there are two ways to solve this problem:
+
+1) Override the color aesthetic in geom_smooth layer
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = F, color = "black") #se = F makes it so it won't show the error in the line of fit
+```
+2) Move the color aesthetic only to layer(s) that need it
+```{r}
+mpg %>% 
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes(color = drv)) + 
   geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
 ```
 
@@ -81,6 +145,17 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(angle = 45))
+```
+#CORRECTED CODE for Graph 5
+To make the box one color instead of just the outline, use fill instead of color. 
+
+To adjust the x-axis labels such that they aren't on the graph, use margin. I initially tried using vjust such that my code read theme(axis.title.x = element_text(vjust = -.05)) but I saw no results. I then stumbled upon someone commenting on a stackoverflow post that since ggplot2, the vjust parameter has been superceded by margins and that is a better way to move text around. Just fyi, margins can be specified for top (t), right (r), bottom (b) and left (l) to position text vertically and horizontally. 
+
+```{r}
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, fill = manufacturer)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(angle = 45, margin = margin(t = 10))) 
+  #theme(axis.title.x = element_text(margin = margin(t = 20))) -> I played around with margin and realized that my original code moved the legend title, not the axis labels. I am just commenting it out here so that it will remind me of the thought process I went through to achieve the desired results!
 ```
 
 
