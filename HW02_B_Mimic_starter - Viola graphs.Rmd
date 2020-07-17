@@ -119,7 +119,6 @@ ggplot(mpg, aes(x=displ, y=hwy)) +
 
 
 
-
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -169,8 +168,6 @@ ggplot(mpg, aes(x=class, y=cty)) +
   theme(
     plot.title=element_text(face='bold', colour="black")
     )
- 
-
 
   
 
