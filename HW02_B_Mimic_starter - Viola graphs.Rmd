@@ -94,6 +94,32 @@ Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
 
+#Defining a new data frame that includes only the data for corvettes, and has "corvette" replaced with "Corvette".
+
+a <- replace((mpg %>% filter(model=="corvette")), (mpg %>% filter(model=="corvette")) == "corvette", "Corvette")
+
+ggplot(mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  
+  geom_point(data=(mpg %>% filter(model=="corvette")), aes(x=displ, y=hwy), color = "blue") +
+  xlim(1,8) +
+  
+  #Initially tried to use: geom_text(data=(a %>% filter(model=="Corvette")), aes(label=paste(model, "," , year)), color = "black", nudge_x=0.2, nudge_y=-2), but that would only let me move the labels by the same amount in x and y directions, so I decided to switch to annotate, since there were only 5 labels to add (not that much work really).
+  
+  annotate("text", x = 6.35, y = 22, label = "Corvette, 1999") +
+  annotate("text", x = 7.7, y = 23, label = "Corvette, 2008") +
+  annotate("text", x = 6.85, y = 25, label = "Corvette, 2008") +
+  annotate("text", x = 6.95, y = 27, label = "Corvette, 2008") +
+  annotate("text", x = 5.7, y = 27, label = "Corvette, 1999") +
+  annotate("segment", x = 6.22, xend = 6.36, y = 26.15, yend = 26.8, colour = "black", size = 0.4) +
+  
+  labs(
+    title="Corvettes are a bit of an outlier"
+  )  
+
+
+
+
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
