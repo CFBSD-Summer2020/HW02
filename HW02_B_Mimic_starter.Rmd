@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Yujia Liu"
 output: github_document
 ---
 
@@ -40,7 +40,7 @@ data("diamonds")
 
 
 Using the diamonds dataset, make this graph:
-```{r graph1 code, echo=FALSE}
+```{r graph1 code, echo=TRUE}
 diamonds %>%
   ggplot(mapping = aes(x = cut, fill = clarity)) +
   # Use "position = dodge" to separate bars of different clarity along x
@@ -64,7 +64,7 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
-```{r graph 2 code, echo=FALSE}
+```{r graph 2 code, echo=TRUE}
 iris %>%
   ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length)) +
   # use "scale = free" to allow individual coordinates for each faceted plot
@@ -88,7 +88,7 @@ set.seed(42)
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graoh 3 code, echo = TRUE}
 mpg %>%
   ggplot(mapping = aes(x = displ, y = hwy)) +
   ggtitle("Corvettes are a bit of an outlier") +
@@ -128,7 +128,7 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 
 Now using the above mpg dataset, make this graph
 
-```{r graph 4 code}
+```{r graph 4 code, echo = TRUE}
 mpg %>%
   ggplot(mapping = aes(x = class, y = cty)) +
   # Hide outliers

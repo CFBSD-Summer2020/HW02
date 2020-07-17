@@ -1,6 +1,6 @@
 HW02\_B\_Graph-Mimic
 ================
-YOUR NAME HERE
+Yujia Liu
 
 ``` r
 library("ggplot2")
@@ -35,6 +35,24 @@ data("diamonds")
 ```
 
 Using the diamonds dataset, make this graph:
+
+``` r
+diamonds %>%
+  ggplot(mapping = aes(x = cut, fill = clarity)) +
+  # Use "position = dodge" to separate bars of different clarity along x
+  geom_bar(position = "dodge") +
+  labs(
+    x = "Diamond Cut", 
+    y = "NUmber of Diamonds",
+    title = "My Diamond Collection",
+    subtitle = "Boxplot representing the number of diamonds in my diamond collection by\ntype of cut quality and clarity of diamond"
+  ) +
+  # Align title to the center
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.2) +
+  annotate("text", label = "My Best Diamonds,\nof course", x = 4, y = 4500)
+```
+
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)<!-- -->
 
 ### Graph 2
@@ -44,6 +62,16 @@ data("iris")
 ```
 
 Using the iris dataset, make this graph:
+
+``` r
+iris %>%
+  ggplot(mapping = aes(x = Sepal.Length, y = Petal.Length)) +
+  # use "scale = free" to allow individual coordinates for each faceted plot
+  facet_wrap(vars(Species), scales = "free") +
+  geom_point(mapping = aes(shape = Species, color = Species)) +
+  # se = FALSE to hide the deviation
+  geom_smooth(method = "lm", se = FALSE, color = "black")
+```
 
     ## `geom_smooth()` using formula 'y ~ x'
 
@@ -62,6 +90,26 @@ set.seed(42)
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
+
+``` r
+mpg %>%
+  ggplot(mapping = aes(x = displ, y = hwy)) +
+  ggtitle("Corvettes are a bit of an outlier") +
+  geom_point() +
+  # Separately plot Corvette dots in blue
+  geom_point(
+    data = corvette, 
+    mapping = aes(x = displ, y = hwy),
+    color = "blue"
+  ) +
+  geom_text_repel(
+    data = corvette, 
+    # Use paste() to concatenate two columns
+    mapping = aes(label = paste(model, year, sep = ","))
+  ) +
+  # Also specify the x limits to mimic the given graph
+  scale_x_continuous(limits = c(1, 8), breaks = seq(1, 8, 1))
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graoh%203%20code-1.png)<!-- -->
 
@@ -85,5 +133,19 @@ The above graph lets you see some colobrlind friendly palettes. For the
 graph below, I used Set2.
 
 Now using the above mpg dataset, make this graph
+
+``` r
+mpg %>%
+  ggplot(mapping = aes(x = class, y = cty)) +
+  # Hide outliers
+  geom_boxplot(outlier.color = NA) +
+  # Only allow jittering along y axis
+  geom_point(mapping = aes(color = class), position = position_jitter(w = 0.5, h = 0)) +
+  # Use the designated palette
+  scale_color_brewer(palette = "Set2") +
+  labs(x = "Car Class", y = "City mpg", title = "Horizontal BoxPlot of City MPG and Car Class") +
+  # Make horizontal boxplot
+  coord_flip()
+```
 
 ![](HW02_B_Mimic_starter_files/figure-gfm/graph%204%20code-1.png)<!-- -->
