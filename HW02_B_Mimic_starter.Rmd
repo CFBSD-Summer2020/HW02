@@ -36,23 +36,41 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ```{r, echo = T, include = TRUE}
 data("diamonds")
 #hint think about the *position* the bars are in...
+str(diamonds)
 ```
 
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
+data("diamonds")
+ggplot(diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge") +
+  labs(title = "My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond", x = "Diamond Cut", y = "Number of Diamonds") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, alpha = 0.3) +
+  annotate("text", x = 4, y = 4500, label = "My Best Diamonds,\nof course")
+  
 
 ```
 
 ### Graph 2
 ```{r, echo = T, include = TRUE}
 data("iris")
+str(iris)
+mean()
 ```
 
-Using the iris dataset, make this graph:
+Usi()ng the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
+data("iris")
 
+ggplot(iris, mapping = aes(x = Sepal.Length, y = Petal.Length, shape = Species, color = Species)) +
+  geom_point() +
+  facet_wrap(~ Species, scales = "free_y") +
+  geom_smooth(method = "lm", se=FALSE, color="black", formula = y ~ x)
+  
+  
+  
 ```
 
 
@@ -69,6 +87,20 @@ set.seed(42)
 Now using the mpg dataset and the corvette dataset, make this graph:
 
 ```{r graoh 3 code}
+data("mpg")
+corvette <- mpg[mpg$model == "corvette",]
+require("ggrepel")
+set.seed(42)
+
+str(mpg)
+
+mpg %>%
+ggplot(aes(displ, hwy)) +
+  geom_point() +
+  geom_point(data = corvette, color = "blue") +
+  labs(title = "Corvettes are a bit of an outlier") +
+  geom_text_repel( data = corvette, label = paste("Corvette,", corvette$year))
+  
 
 ```
 
@@ -91,6 +123,18 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+data(mpg)
+
+mpg %>%
+ggplot(aes(cty, class, color = class)) +
+  geom_boxplot(show.legend = FALSE, color = "black") +
+  geom_point() +
+  scale_color_brewer(palette = "Set2") +
+  geom_jitter(width = 0, height = 0.4) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg") +
+  theme(panel.grid = element_blank(), panel.border = element_blank(), axis.line = element_line(color = "black"))
+  
+  
 
 ```
 
