@@ -97,8 +97,9 @@ str(mpg)
 mpg %>%
 ggplot(aes(displ, hwy)) +
   geom_point() +
-  geom_point(data = corvette, aes(displ, hwy), color = "blue") +
-  labs(title = "Corvettes are a bit of an outlier")
+  geom_point(data = corvette, color = "blue") +
+  labs(title = "Corvettes are a bit of an outlier") +
+  geom_text_repel( data = corvette, label = paste("Corvette,", corvette$year))
   
 
 ```
@@ -122,6 +123,18 @@ The above graph lets you see some colobrlind friendly palettes. For the graph be
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
+data(mpg)
+
+mpg %>%
+ggplot(aes(cty, class, color = class)) +
+  geom_boxplot(show.legend = FALSE, color = "black") +
+  geom_point() +
+  scale_color_brewer(palette = "Set2") +
+  geom_jitter(width = 0, height = 0.4) +
+  labs(title = "Horizontal BoxPlot of City MPG and Car Class", x = "Car Class", y = "City mpg") +
+  theme(panel.grid = element_blank(), panel.border = element_blank(), axis.line = element_line(color = "black"))
+  
+  
 
 ```
 
