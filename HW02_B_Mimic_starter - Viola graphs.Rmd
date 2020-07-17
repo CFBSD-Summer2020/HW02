@@ -38,14 +38,17 @@ data("diamonds")
 
 diamonds %>% 
   ggplot(mapping = aes(x = cut, fill = clarity)) +
-  geom_bar(position = position_dodge(width = 1)) +
+  geom_bar(position = position_dodge(width = 0.9)) +
   labs(
       title = "My Diamond Collection",
       subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond",
       x = "Diamond Cut",
       y = "Number of Diamonds"
   ) +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  annotate("text", x = "Premium", y = 4500, label = "My Best Diamonds, \n of course") +
+  annotate ("rect", xmin = 4.5, xmax = 5.5, ymin = 0, ymax = 5000, hjust = "Ideal", fill = "grey40", alpha = 0.3)
+
 
 #hint think about the *position* the bars are in...
 ```
