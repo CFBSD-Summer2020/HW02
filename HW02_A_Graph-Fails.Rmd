@@ -36,7 +36,7 @@ str(mpg)
 
 mpg %>%
   
-  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + #needed a + instead of a %>%
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + #needed a + instead of a %>%, also city is just cty in the data frame.
   geom_point()
 
 ```
