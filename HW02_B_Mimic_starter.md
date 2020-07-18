@@ -38,7 +38,7 @@ Using the diamonds dataset, make this graph:
 
     ## Warning: Ignoring unknown parameters: binwidth, bins, pad
 
-![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)<!-- -->
+![](HW02_B_Mimic_starter_files/figure-gfm/graph1%20code-1.png)
 
 ### Graph 2
 
