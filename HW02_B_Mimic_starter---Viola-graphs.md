@@ -128,7 +128,8 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 ```
 
 ![](HW02_B_Mimic_starter---Viola-graphs_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-\#\#\# Graph 4
+
+### Graph 4
 
 ``` r
 ggplot(mpg, aes(x=class, y=cty)) +

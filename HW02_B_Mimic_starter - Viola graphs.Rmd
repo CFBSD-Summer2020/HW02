@@ -116,6 +116,7 @@ data(mpg)
 library(RColorBrewer)
 display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendly options
 ```
+
 ### Graph 4 
 
 ```{r graph 4 code, echo=TRUE, include=TRUE}
