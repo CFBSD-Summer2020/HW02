@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Monty Kwan edit"
 output: github_document
 ---
 
@@ -41,8 +41,14 @@ data("diamonds")
 
 Using the diamonds dataset, make this graph:
 ```{r graph1 code, echo=FALSE}
-
-
+ggplot(diamonds, aes(x= cut)) + 
+  geom_histogram(aes(fill=clarity),position = "dodge", stat='count')  +  
+#'count' automatically computes the number in each category
+  labs(x = "Diamond Cut", y= "Number of Diamonds", title="My Diamond Collection", subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond" ) +
+  theme(plot.title = element_text(hjust = 0.5)) + 
+#geom_text(aes(x="Premium", y=4500), label="My Best Diamonds,\n of course") also works but slow hehe
+annotate("text", x = "Premium", y = 4500, label ="My Best Diamonds,\n of course")
+#\n creates new line
 ```
 
 ### Graph 2
@@ -53,6 +59,14 @@ data("iris")
 Using the iris dataset, make this graph:
 ```{r graph 2 code, echo=FALSE}
 
+iris$Species <- factor(iris$Species, levels = c("versicolor","setosa","virginica"))
+#changing order of factor to un-alphabetical (non-default)
+ggplot(iris, aes(x= Sepal.Length, y= Petal.Length )) +
+  geom_point(aes(color = Species, shape = Species)) + 
+  geom_smooth(formula = y~x , method = 'lm', se= F, color= 'black') + facet_wrap(~Species, scales="free_y")
+#geom_smooth 'lm' fits linear model, se=F does not print standard error
+#facet_wrap breaks up plot, a diff plot for each species, scale=free y means each species has its own y scale
+#dots and triangles are switched???
 ```
 
 
@@ -60,16 +74,23 @@ Using the iris dataset, make this graph:
 You'll need the information in this first box to create the graph
 ```{r, echo = TRUE}
 data("mpg")
-corvette <- mpg[mpg$model == "corvette",]
+corvette <- mpg[mpg$model == "corvette",] #[only select the rows where the model= tcorvette within the mpg dataset], which is being put (<-)into a vector
 #install
-require("ggrepel") #useful for making text annotations better, hint hint
+require("ggrepel") #ggrepel provides geoms for ggplot to repel overlapping text labels. useful for making text annotations better, hint hint
 set.seed(42)
 ```
 
 Now using the mpg dataset and the corvette dataset, make this graph:
 
-```{r graoh 3 code}
+```{r graph 3 code}
+library(ggrepel)
 
+ggplot(mpg, aes(x=displ, y=hwy))+ 
+  geom_point() + 
+  geom_text_repel(corvette, mapping = aes(x= displ, y=hwy, label =   paste("Corvette,", year))) + 
+  geom_point(data=corvette, color = 'blue') + 
+  labs(title = "Corvettes are a bit of an outlier")
+#mapping calls displ and hwy from corvette specifically, not mpg's displ and hwy
 ```
 
 There is a trick to getting the model and year to print off together. `paste()` is a useful function for this, also pasting together parts of file names and parts of urls together. 
@@ -86,12 +107,17 @@ display.brewer.all(colorblindFriendly = T) #take a look at the colorblindfriendl
 
 The above graph lets you see some colobrlind friendly palettes. For the graph below, I used Set2.
 
-
-
 Now using the above mpg dataset, make this graph
 
 ```{r graph 4 code}
-
+library(RColorBrewer)
+ggplot(mpg, aes(x=cty, y = class)) +
+  geom_point(aes(color=class),position = position_jitter(w = 0, h = 0.4)) + geom_boxplot(alpha=0) +
+  scale_color_brewer(palette="Set2") +
+  labs(x="City mpg", y="Car Class", title="Horizontal BoxPlot of City MPG and Car Class")+ 
+  theme_classic()
+#boxplots allow you to compare aspects of groups, in this case, by car class, so your x will be what you're grouping by
+#theme_classic() eliminates gridlines
 ```
 
 
