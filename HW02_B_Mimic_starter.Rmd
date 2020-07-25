@@ -1,6 +1,6 @@
 ---
 title: "HW02_B_Graph-Mimic"
-author: "YOUR NAME HERE"
+author: "Viola Nawrocka"
 output: github_document
 ---
 
@@ -35,6 +35,18 @@ Try for all 4, but if you are struggling don't worry about it. Try your best for
 ### Graph 1
 ```{r, echo = T, include = TRUE}
 data("diamonds")
+
+diamonds %>% 
+  ggplot(mapping = aes(x = cut, fill = clarity)) +
+  geom_bar(position = position_dodge(width = 1)) +
+  labs(
+      title = "My Diamond Collection",
+      subtitle = "Boxplot representing the number of diamonds in my diamond collection by \ntype of cut quality and clarity of diamond",
+      x = "Diamond Cut",
+      y = "Number of Diamonds"
+  ) +
+  theme(plot.title = element_text(hjust = 0.5))
+
 #hint think about the *position* the bars are in...
 ```
 
