@@ -33,7 +33,7 @@ What error is being thrown? How do you correct it? (hint, the error message tell
 data(mpg) #this is a dataset from the ggplot2 package
 
 mpg %>% 
-  ggplot(mapping = aes(x = city, y = hwy, color = "blue")) %>% 
+  ggplot(mapping = aes(x = cty, y = hwy, color = "blue")) + 
   geom_point()
 
 ```
@@ -42,7 +42,7 @@ mpg %>%
 Why aren't the points blue? It is making me blue that the points in the graph aren't blue :`(
 ```{r}
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
 
 ```
 
@@ -55,9 +55,9 @@ Second, I wanted to move the legend on top of the graph since there aren't any p
 ```{r}
 mpg %>% 
 ggplot() + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class), alpha = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class), size = 1.5) + 
   theme(legend.direction = "horizontal") + 
-  theme(legend.position = c(5, 40))
+  theme(legend.position = "none")
 
 ```
 
@@ -66,9 +66,9 @@ I wanted just one smoothing line. Just one line, to show the general relationshi
 
 ```{r}
 mpg %>% 
-ggplot(mapping = aes(x = displ, y = hwy, color = drv)) + 
-  geom_point() + 
-  geom_smooth(se = F) #se = F makes it so it won't show the error in the line of fit
+ggplot(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(aes (color = drv)) + 
+  geom_smooth(color = "black") #se = F makes it so it won't show the error in the line of fit
 ```
 
 ### Graph Fail 5
@@ -78,9 +78,9 @@ Also, the x-axis labels were overlaping, so I rotated them. But now they overlap
 
 
 ```{r}
-ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty, color = manufacturer)) + 
-  geom_boxplot() + 
-  theme(axis.text.x = element_text(angle = 45))
+ggplot(data = mpg, mapping = aes(x = manufacturer, y = cty)) + 
+  geom_boxplot(color = "black") + 
+  theme(axis.text.x = element_text(angle = 90, hjust = 0.95, vjust = 0.4))
 ```
 
 
